@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "use-validate-zod-vue"
-  text: "use-validate-zod-vue"
+  name: 'use-validate-zod-vue'
+  text: 'use-validate-zod-vue'
   tagline: My great project tagline
   actions:
     - theme: brand
@@ -13,6 +13,9 @@ hero:
     - theme: alt
       text: API Examples
       link: /api-examples
+    - theme: alt
+      text: my-examples
+      link: /my-examples
 
 features:
   - title: Feature A
@@ -22,4 +25,3 @@ features:
   - title: Feature C
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-
