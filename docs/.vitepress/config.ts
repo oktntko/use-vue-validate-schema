@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 import { defineConfig } from 'vitepress';
 
@@ -6,6 +7,7 @@ export default defineConfig({
   title: 'use-validate-zod-vue',
   description: 'use-validate-zod-vue',
   vite: {
+    plugins: [tailwindcss()],
     resolve: {
       alias: {
         '@lib': path.resolve(__dirname, '../../packages'), // ライブラリのルート
