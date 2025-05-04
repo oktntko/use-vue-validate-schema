@@ -18,5 +18,6 @@
   "files.trimFinalNewlines": true,
   "files.associations": {
     "*.css": "tailwindcss"
-  }
+  },
+  "vue.server.includeLanguages": ["vue", "markdown"]
 }

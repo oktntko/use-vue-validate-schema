@@ -4,7 +4,7 @@ import type { HTMLAttributes } from 'vue';
 import { computed, h, type Ref, ref, watch } from 'vue';
 import { z } from 'zod';
 
-export function useValidate<T extends z.ZodRawShape>(
+export default function useValidate<T extends z.ZodRawShape>(
   schema: z.ZodEffects<z.ZodObject<T>> | z.ZodObject<T>,
   modelValue: Ref<z.infer<typeof schema>>,
 ) {
@@ -54,7 +54,7 @@ export function useValidate<T extends z.ZodRawShape>(
   // バリデーションする
   function validateSubmit(
     callback: (value: z.infer<typeof schema>) => void,
-    onInvalidSubmit: (eroor: Map<string, string[]>) => void = handleInvalidSubmit,
+    onInvalidSubmit: (error: Map<string, string[]>) => void = handleInvalidSubmit,
   ) {
     return async () => {
       submitCount.value++;
@@ -75,9 +75,9 @@ export function useValidate<T extends z.ZodRawShape>(
     modelValue.value = R.clone(initialValue.value);
   }
 
-  function reset(resetlValue: z.infer<typeof schema>) {
-    modelValue.value = R.clone(resetlValue);
-    initialValue.value = resetlValue;
+  function reset(resetValue: z.infer<typeof schema>) {
+    modelValue.value = R.clone(resetValue);
+    initialValue.value = resetValue;
   }
 
   // const dialog = useDialog();
@@ -85,30 +85,55 @@ export function useValidate<T extends z.ZodRawShape>(
     // return dialog.alert('入力値に誤りがあります。');
   }
 
-  const ErrorMessage = (props: Props<z.infer<typeof schema>>) => {
-    const message = computed<string | undefined>(() => {
+  interface Props<T> extends /* @vue-ignore */ HTMLAttributes {
+    for: StringPaths<T>;
+    nest?: boolean;
+    multiple?: boolean;
+  }
+  function ErrorMessage({
+    nest = true,
+    multiple = false,
+    ...props
+  }: Props<z.infer<typeof schema>>) {
+    const messages = computed<string[] | undefined>(() => {
       // サブミット済みならエラーメッセージを表示する
       // 差分がなければエラーメッセージを表示しない
-      if (submitCount.value === 0 && !diff.value.includes(props.for)) {
-        return undefined;
+
+      const nestKey = `${props.for}.`;
+
+      if (
+        submitCount.value === 0 &&
+        !diff.value.includes(props.for) &&
+        (!nest || (nest && !diff.value.some((key) => key.startsWith(nestKey))))
+      ) {
+        return [];
       }
 
-      const errorMessages = error.value.get(props.for);
+      const errorMessages = [
+        ...(error.value.get(props.for) ?? []),
+        ...(!nest
+          ? []
+          : Array.from(error.value.entries())
+              .filter(([key]) => key.startsWith(nestKey))
+              .map(([_, value]) => value)
+              .flat()),
+      ];
       if (errorMessages && errorMessages.length > 0) {
-        return errorMessages[0];
+        return multiple ? errorMessages : [errorMessages[0]];
       }
 
-      return undefined;
+      return [];
     });
 
-    if (message.value) {
-      return h('div', message.value);
+    if (messages.value.length > 0) {
+      return h('div', messages.value);
     } else {
-      return h('div');
+      return;
     }
-  };
+  }
 
   return {
+    initialValue,
     diff,
     error,
     isInvalid,
@@ -122,22 +147,21 @@ export function useValidate<T extends z.ZodRawShape>(
 }
 
 // https://zenn.dev/wintyo/articles/0f0e7e86a3361f
-type Join<K, P> = K extends string
-  ? P extends string
+type Join<K, P> = K extends string | number
+  ? P extends string | number
     ? `${K}${'' extends P ? '' : '.'}${P}`
     : never
   : never;
 
 type Prev = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ...never[]];
 
-type Paths<T, D extends number = 10> = D extends never
+// Type instantiation is excessively deep and possibly infinite.
+type Paths<T, D extends number = 4> = D extends never
   ? never
   : T extends object
     ? {
-        [K in keyof T]-?: K extends string ? K | Join<K, Paths<T[K], Prev[D]>> : never;
+        [K in keyof T]-?: K extends string | number ? K | Join<K, Paths<T[K], Prev[D]>> : never;
       }[keyof T]
     : '';
 
-interface Props<T> extends /* @vue-ignore */ HTMLAttributes {
-  for: Paths<T>;
-}
+type StringPaths<T> = Extract<Paths<T>, string>;

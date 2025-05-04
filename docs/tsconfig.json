@@ -6,5 +6,8 @@
       "@lib": ["../packages"] // ここで @lib → ライブラリ本体を通す
     }
   },
-  "include": ["./**/*"]
+  "include": ["./**/*"],
+  "vueCompilerOptions": {
+    "vitePressExtensions": [".md"]
+  }
 }
