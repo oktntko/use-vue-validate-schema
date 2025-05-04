@@ -141,7 +141,11 @@ const handleSubmit = validateSubmit(() => {
             <span>{{ 'INVALID-VALUE' }}</span>
           </label>
         </div>
-        <ErrorMessage for="multiple_checkbox" class="block text-sm text-red-400"></ErrorMessage>
+        <ErrorMessage
+          for="multiple_checkbox"
+          :nest="true"
+          class="block text-sm text-red-400"
+        ></ErrorMessage>
       </div>
 
       <div class="space-y-0.5">
@@ -222,7 +226,11 @@ const handleSubmit = validateSubmit(() => {
             {{ 'INVALID-VALUE' }}
           </option>
         </select>
-        <ErrorMessage for="multiple_select" class="block text-sm text-red-400"></ErrorMessage>
+        <ErrorMessage
+          for="multiple_select"
+          :nest="true"
+          class="block text-sm text-red-400"
+        ></ErrorMessage>
       </div>
     </section>
 

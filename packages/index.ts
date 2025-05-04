@@ -91,7 +91,7 @@ export default function useValidate<T extends z.ZodRawShape>(
     multiple?: boolean;
   }
   function ErrorMessage({
-    nest = true,
+    nest = false,
     multiple = false,
     ...props
   }: Props<z.infer<typeof schema>>) {
@@ -125,11 +125,17 @@ export default function useValidate<T extends z.ZodRawShape>(
       return [];
     });
 
-    if (messages.value.length > 0) {
-      return h('div', messages.value);
-    } else {
+    if (messages.value.length === 0) {
       return;
     }
+    if (messages.value.length === 1) {
+      return h('div', messages.value);
+    }
+
+    return h(
+      'div',
+      messages.value.map((x) => h('div', x)),
+    );
   }
 
   return {

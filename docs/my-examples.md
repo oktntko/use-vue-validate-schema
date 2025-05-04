@@ -21,22 +21,11 @@ const schema = z.object({
     .pipe(z.enum(single_select_options)),
   multiple_select: z.enum(multiple_select_options).array().min(1),
 });
-
-const modelValue = ref<z.infer<typeof schema>>({
-  text: '',
-  textarea: '',
-  single_checkbox: false,
-  multiple_checkbox: [],
-  radio: 'One',
-  single_select: '',
-  multiple_select: [],
-});
-
-const { validateSubmit, ErrorMessage } = useValidate(schema, modelValue);
 ```
 
 <script setup>
 import BasicUsage from './components/BasicUsage.vue'
+import ComplicatedSchema from './components/ComplicatedSchema.vue'
 </script>
 
 <BasicUsage></BasicUsage>
@@ -48,9 +37,60 @@ import BasicUsage from './components/BasicUsage.vue'
 - ポイント３．
   - 既存のフォームに手を加える必要がほとんどないよ
 
-## 複雑なスキーマ
+## Complicated Schema
 
-パスワードの変更
+```ts
+const schema = z
+  .object({
+    username: z.string().trim().min(1).max(10),
+    email: z.string().email().endsWith('@example.com'),
+    password: z
+      .string()
+      .min(8)
+      .max(100)
+      .regex(/^[\x20-\x7E]+$/, 'Use only standard English letters, numbers, and symbols')
+      .regex(/[A-Z]/, 'Password must contain uppercase letters')
+      .regex(/[a-z]/, 'Password must contain lowercase letters')
+      .regex(/\d/, 'Password must contain numbers')
+      .regex(/[^a-zA-Z0-9]/, 'Password must contain symbols'),
+    confirm_password: z.string().min(8).max(100),
+    securityQuestions: z
+      .string()
+      .refine((val) => val !== '', {
+        message: 'Please select one',
+      })
+      .pipe(z.enum(securityQuestions))
+      .array(),
+    securityAnswers: z.string().trim().min(1).max(10).array(),
+  })
+  .superRefine((val, ctx) => {
+    if (val.password !== val.confirm_password) {
+      ctx.addIssue({
+        path: ['confirm_password'],
+        code: z.ZodIssueCode.custom,
+        message: `Password and confirmation do not match`,
+      });
+    }
+
+    const questions = new Set<string>();
+    val.securityQuestions.forEach((current, i) => {
+      if (!current) {
+        return;
+      }
+
+      if (questions.has(current)) {
+        ctx.addIssue({
+          path: [`securityQuestions.${i}`],
+          code: z.ZodIssueCode.custom,
+          message: `This question is a duplicate. Please choose a different question.`,
+        });
+      }
+      questions.add(current);
+    });
+  });
+```
+
+<ComplicatedSchema></ComplicatedSchema>
 
 ## ネスト・アレイ・ネストアレイ
 
