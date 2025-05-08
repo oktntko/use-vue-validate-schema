@@ -103,7 +103,10 @@ function newItem() {
         class="relative space-y-2 rounded-md border border-gray-400 p-2"
       >
         <div class="relative">
-          <label :for="`details.${i}.item`" class="absolute -top-2 left-1 bg-white px-1 text-xs">
+          <label
+            :for="`details.${i}.item`"
+            class="absolute -top-2 left-1 bg-white px-1 text-xs dark:bg-[#1b1b1f]"
+          >
             item
           </label>
           <input
@@ -116,7 +119,7 @@ function newItem() {
 
         <button
           type="button"
-          class="absolute -right-2 -top-2 inline-flex h-6 w-6 items-center rounded-full border border-gray-400 bg-white p-1 text-center text-sm font-medium text-gray-500 transition-colors hover:bg-gray-500 hover:text-white"
+          class="absolute -top-2 -right-2 inline-flex h-6 w-6 items-center rounded-full border border-gray-400 bg-white p-1 text-center text-sm font-medium text-gray-500 transition-colors hover:bg-gray-500 hover:text-white"
           @click="removeItem(one.id)"
         >
           <span class="icon-[heroicons--x-mark-16-solid]"></span>
@@ -124,7 +127,10 @@ function newItem() {
 
         <div class="flex gap-1">
           <div class="relative space-y-0.5">
-            <label :for="`details.${i}.cost`" class="absolute -top-2 left-1 bg-white px-1 text-xs">
+            <label
+              :for="`details.${i}.cost`"
+              class="absolute -top-2 left-1 bg-white px-1 text-xs dark:bg-[#1b1b1f]"
+            >
               cost
             </label>
             <InputCommaNumber
@@ -138,7 +144,7 @@ function newItem() {
           <div class="relative space-y-0.5">
             <label
               :for="`details.${i}.quantity`"
-              class="absolute -top-2 left-1 bg-white px-1 text-xs"
+              class="absolute -top-2 left-1 bg-white px-1 text-xs dark:bg-[#1b1b1f]"
             >
               quantity
             </label>
@@ -151,7 +157,10 @@ function newItem() {
           </div>
 
           <div class="relative space-y-0.5">
-            <label :for="`details.${i}.price`" class="absolute -top-2 left-1 bg-white px-1 text-xs">
+            <label
+              :for="`details.${i}.price`"
+              class="absolute -top-2 left-1 bg-white px-1 text-xs dark:bg-[#1b1b1f]"
+            >
               price
             </label>
             <InputCommaNumber
@@ -213,7 +222,7 @@ function newItem() {
         type="submit"
         :class="[
           'transition-colors',
-          'mb-2 me-2 cursor-pointer rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800',
+          'me-2 mb-2 cursor-pointer rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:ring-4 focus:ring-green-300 focus:outline-none dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800',
           'disabled:cursor-not-allowed disabled:bg-green-700/50 disabled:hover:bg-green-800/50 disabled:dark:bg-green-600/50 disabled:dark:hover:bg-green-700/50',
         ]"
       >
