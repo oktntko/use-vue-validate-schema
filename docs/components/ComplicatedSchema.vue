@@ -81,11 +81,11 @@ const handleSubmit = validateSubmit(() => {
 </script>
 
 <template>
-  <form class="max-w-sm mx-auto space-y-4" @submit.prevent="handleSubmit">
+  <form class="mx-auto max-w-sm space-y-4" @submit.prevent="handleSubmit">
     <section class="space-y-4">
       <section class="space-y-2">
         <p class="text-base font-bold">Public Identity</p>
-        <div class="space-y-1 ml-2">
+        <div class="ml-2 space-y-1">
           <div class="space-y-0.5">
             <label for="username" class="block text-sm font-medium" :class="['truncate']">
               username : {{ modelValue.username }}
@@ -94,11 +94,11 @@ const handleSubmit = validateSubmit(() => {
               id="username"
               v-model="modelValue.username"
               type="text"
-              class="border border-gray-400 text-sm rounded-lg block w-full p-2.5"
+              class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
             />
             <ErrorMessage
-              for="username"
-              :multiple="true"
+              field="username"
+              multiple
               class="block text-sm text-red-400"
             ></ErrorMessage>
           </div>
@@ -111,20 +111,16 @@ const handleSubmit = validateSubmit(() => {
               id="email"
               v-model="modelValue.email"
               type="text"
-              class="border border-gray-400 text-sm rounded-lg block w-full p-2.5"
+              class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
             />
-            <ErrorMessage
-              for="email"
-              :multiple="true"
-              class="block text-sm text-red-400"
-            ></ErrorMessage>
+            <ErrorMessage field="email" multiple class="block text-sm text-red-400"></ErrorMessage>
           </div>
         </div>
       </section>
 
       <section class="space-y-2">
         <p class="text-base font-bold">Password</p>
-        <div class="space-y-1 ml-2">
+        <div class="ml-2 space-y-1">
           <div class="space-y-0.5">
             <label for="password" class="block text-sm font-medium" :class="['truncate']">
               password : {{ modelValue.password }}
@@ -133,11 +129,11 @@ const handleSubmit = validateSubmit(() => {
               id="password"
               v-model="modelValue.password"
               type="password"
-              class="border border-gray-400 text-sm rounded-lg block w-full p-2.5"
+              class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
             />
             <ErrorMessage
-              for="password"
-              :multiple="true"
+              field="password"
+              multiple
               class="block text-sm text-red-400"
             ></ErrorMessage>
           </div>
@@ -149,11 +145,11 @@ const handleSubmit = validateSubmit(() => {
               id="confirm_password"
               v-model="modelValue.confirm_password"
               type="password"
-              class="border border-gray-400 text-sm rounded-lg block w-full p-2.5"
+              class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
             />
             <ErrorMessage
-              for="confirm_password"
-              :multiple="true"
+              field="confirm_password"
+              multiple
               class="block text-sm text-red-400"
             ></ErrorMessage>
           </div>
@@ -163,14 +159,14 @@ const handleSubmit = validateSubmit(() => {
       <section class="space-y-2">
         <p class="text-base font-bold">Security Questions</p>
 
-        <div class="space-y-1 ml-2">
+        <div class="ml-2 space-y-1">
           <div v-for="i of [0, 1, 2]" :key="i" class="space-y-0.5">
             <div class="flex items-center gap-1">
               <label :for="`securityQuestions.${i}`" class="shrink-0">Q{{ i + 1 }} :</label>
               <select
                 :id="`securityQuestions.${i}`"
                 v-model="modelValue.securityQuestions[i]"
-                class="border border-gray-400 text-sm rounded-lg block w-full px-2.5 py-1.5"
+                class="block w-full rounded-lg border border-gray-400 px-2.5 py-1.5 text-sm"
                 :class="['grow']"
               >
                 <option value="" selected disabled>Please select one</option>
@@ -180,8 +176,8 @@ const handleSubmit = validateSubmit(() => {
               </select>
             </div>
             <ErrorMessage
-              :for="`securityQuestions.${i}`"
-              :multiple="true"
+              :field="`securityQuestions.${i}`"
+              multiple
               class="block text-sm text-red-400"
             ></ErrorMessage>
             <input
@@ -189,11 +185,11 @@ const handleSubmit = validateSubmit(() => {
               v-model="modelValue.securityAnswers[i]"
               type="text"
               :placeholder="modelValue.securityQuestions[i]"
-              class="border border-gray-400 text-sm rounded-lg block w-full p-2.5"
+              class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
             />
             <ErrorMessage
-              :for="`securityAnswers.${i}`"
-              :multiple="true"
+              :field="`securityAnswers.${i}`"
+              multiple
               class="block text-sm text-red-400"
             ></ErrorMessage>
           </div>
@@ -206,7 +202,7 @@ const handleSubmit = validateSubmit(() => {
         type="submit"
         :class="[
           'transition-colors',
-          'focus:outline-none cursor-pointer text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800',
+          'me-2 mb-2 cursor-pointer rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:ring-4 focus:ring-green-300 focus:outline-none dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800',
           'disabled:cursor-not-allowed disabled:bg-green-700/50 disabled:hover:bg-green-800/50 disabled:dark:bg-green-600/50 disabled:dark:hover:bg-green-700/50',
         ]"
       >

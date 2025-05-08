@@ -1,7 +1,7 @@
 import microdiff from 'microdiff';
 import * as R from 'remeda';
-import type { HTMLAttributes } from 'vue';
-import { computed, h, type Ref, ref, watch } from 'vue';
+import type { Component, PropType, SlotsType, VNode } from 'vue';
+import { computed, defineComponent, h, type Ref, ref, watch } from 'vue';
 import { z } from 'zod';
 
 export default function useValidate<T extends z.ZodRawShape>(
@@ -85,57 +85,106 @@ export default function useValidate<T extends z.ZodRawShape>(
     // return dialog.alert('入力値に誤りがあります。');
   }
 
-  interface Props<T> extends /* @vue-ignore */ HTMLAttributes {
-    for: StringPaths<T>;
-    nest?: boolean;
-    multiple?: boolean;
-  }
-  function ErrorMessage({
+  const ErrorMessage = defineComponent({
+    name: 'ErrorMessage',
+    inheritAttrs: false,
+    props: {
+      field: {
+        type: String as unknown as PropType<StringPaths<z.infer<typeof schema>>>,
+        required: true,
+      },
+      nest: {
+        type: Boolean,
+        default: false,
+      },
+      multiple: {
+        type: Boolean,
+        default: false,
+      },
+      tag: {
+        type: [String, Object] as unknown as PropType<string | Component>,
+        default: 'div',
+      },
+    },
+    slots: Object as SlotsType<{
+      default: (props: { messages: string | string[] }) => VNode[];
+    }>,
+    setup(props, { slots, attrs }) {
+      const messages = computed<string[]>(() => {
+        // サブミット済みならエラーメッセージを表示する
+        // 差分がなければエラーメッセージを表示しない
+        const nestKey = `${props.field}.`;
+
+        if (
+          submitCount.value === 0 &&
+          !diff.value.includes(props.field as string) &&
+          (!props.nest || (props.nest && !diff.value.some((key) => key.startsWith(nestKey))))
+        ) {
+          return [];
+        }
+
+        return getErrorMessages({
+          field: props.field as StringPaths<z.infer<typeof schema>>,
+          nest: props.nest,
+        });
+      });
+
+      return (): VNode => {
+        const { tag } = props;
+
+        if (messages.value.length === 0) {
+          return;
+        }
+
+        // slotが提供されている場合
+        if (slots.default) {
+          return h(
+            tag,
+            attrs,
+            slots.default({ messages: props.multiple ? messages.value : messages.value[0] }),
+          );
+        }
+
+        // slotがない場合：messages.length に応じて描画内容を変える
+        return h(
+          tag,
+          attrs,
+          props.multiple
+            ? messages.value.map((message, i) => h(tag, { key: i }, message))
+            : messages.value[0],
+        );
+      };
+    },
+  });
+
+  function getErrorMessages({
+    field,
     nest = false,
-    multiple = false,
-    ...props
-  }: Props<z.infer<typeof schema>>) {
-    const messages = computed<string[] | undefined>(() => {
-      // サブミット済みならエラーメッセージを表示する
-      // 差分がなければエラーメッセージを表示しない
+  }: {
+    field: StringPaths<z.infer<typeof schema>>;
+    nest?: boolean;
+  }) {
+    const nestKey = `${field}.`;
 
-      const nestKey = `${props.for}.`;
+    return [
+      ...(error.value.get(field) ?? []),
+      ...(!nest
+        ? []
+        : Array.from(error.value.entries())
+            .filter(([key]) => key.startsWith(nestKey))
+            .map(([_, value]) => value)
+            .flat()),
+    ];
+  }
 
-      if (
-        submitCount.value === 0 &&
-        !diff.value.includes(props.for) &&
-        (!nest || (nest && !diff.value.some((key) => key.startsWith(nestKey))))
-      ) {
-        return [];
-      }
-
-      const errorMessages = [
-        ...(error.value.get(props.for) ?? []),
-        ...(!nest
-          ? []
-          : Array.from(error.value.entries())
-              .filter(([key]) => key.startsWith(nestKey))
-              .map(([_, value]) => value)
-              .flat()),
-      ];
-      if (errorMessages && errorMessages.length > 0) {
-        return multiple ? errorMessages : [errorMessages[0]];
-      }
-
-      return [];
-    });
-
-    if (messages.value.length === 0) {
-      return;
-    }
-    if (messages.value.length === 1) {
-      return h('div', messages.value);
-    }
-
-    return h(
-      'div',
-      messages.value.map((x) => h('div', x)),
-    );
+  function hasError({
+    fields,
+    nest = false,
+  }: {
+    fields: StringPaths<z.infer<typeof schema>>[];
+    nest?: boolean;
+  }) {
+    return fields.map((field) => getErrorMessages({ field, nest })).flat().length > 0;
   }
 
   return {
@@ -149,6 +198,8 @@ export default function useValidate<T extends z.ZodRawShape>(
     submitCount,
     validateSubmit,
     ErrorMessage,
+    getErrorMessages,
+    hasError,
   };
 }
 

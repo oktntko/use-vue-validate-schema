@@ -43,7 +43,7 @@ const handleSubmit = validateSubmit(() => {
 </script>
 
 <template>
-  <form class="max-w-sm mx-auto space-y-4" @submit.prevent="handleSubmit">
+  <form class="mx-auto max-w-sm space-y-4" @submit.prevent="handleSubmit">
     <section class="space-y-2">
       <div class="space-y-0.5">
         <label for="text" class="block text-sm font-medium" :class="['truncate']">
@@ -53,9 +53,9 @@ const handleSubmit = validateSubmit(() => {
           id="text"
           v-model="modelValue.text"
           type="text"
-          class="border border-gray-400 text-sm rounded-lg block w-full p-2.5"
+          class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
         />
-        <ErrorMessage for="text" class="block text-sm text-red-400"></ErrorMessage>
+        <ErrorMessage field="text" class="block text-sm text-red-400"></ErrorMessage>
         <div class="text-right text-xs text-gray-400">{{ modelValue.text.length }} / 10</div>
       </div>
 
@@ -66,10 +66,10 @@ const handleSubmit = validateSubmit(() => {
         <textarea
           id="textarea"
           v-model="modelValue.textarea"
-          class="border border-gray-400 text-sm rounded-lg block w-full p-2.5"
+          class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
           rows="3"
         />
-        <ErrorMessage for="textarea" class="block text-sm text-red-400"></ErrorMessage>
+        <ErrorMessage field="textarea" class="block text-sm text-red-400"></ErrorMessage>
         <div class="text-right text-xs text-gray-400">{{ modelValue.textarea.length }} / 100</div>
       </div>
 
@@ -78,7 +78,7 @@ const handleSubmit = validateSubmit(() => {
           single_checkbox : {{ modelValue.single_checkbox }}
         </span>
         <div class="inline-flex flex-col gap-1">
-          <label for="single_checkbox" class="inline-flex items-center text-sm font-medium gap-1">
+          <label for="single_checkbox" class="inline-flex items-center gap-1 text-sm font-medium">
             <input
               id="single_checkbox"
               v-model="modelValue.single_checkbox"
@@ -91,7 +91,7 @@ const handleSubmit = validateSubmit(() => {
           </label>
           <label
             for="single_checkbox-INVALID-VALUE"
-            class="inline-flex items-center text-sm font-medium gap-1"
+            class="inline-flex items-center gap-1 text-sm font-medium"
           >
             <input
               id="single_checkbox-INVALID-VALUE"
@@ -103,7 +103,7 @@ const handleSubmit = validateSubmit(() => {
             <span>INVALID-VALUE</span>
           </label>
         </div>
-        <ErrorMessage for="single_checkbox" class="block text-sm text-red-400"></ErrorMessage>
+        <ErrorMessage field="single_checkbox" class="block text-sm text-red-400"></ErrorMessage>
       </div>
 
       <div class="space-y-0.5">
@@ -115,7 +115,7 @@ const handleSubmit = validateSubmit(() => {
             v-for="value of multiple_checkbox_options"
             :key="value"
             :for="`multiple_checkbox-${value}`"
-            class="inline-flex items-center text-sm font-medium gap-1"
+            class="inline-flex items-center gap-1 text-sm font-medium"
           >
             <input
               :id="`multiple_checkbox-${value}`"
@@ -129,7 +129,7 @@ const handleSubmit = validateSubmit(() => {
           <!-- INVALID-VALUE -->
           <label
             :for="`multiple_checkbox-${'INVALID-VALUE'}`"
-            class="inline-flex items-center text-sm font-medium gap-1"
+            class="inline-flex items-center gap-1 text-sm font-medium"
           >
             <input
               :id="`multiple_checkbox-${'INVALID-VALUE'}`"
@@ -142,8 +142,8 @@ const handleSubmit = validateSubmit(() => {
           </label>
         </div>
         <ErrorMessage
-          for="multiple_checkbox"
-          :nest="true"
+          field="multiple_checkbox"
+          nest
           class="block text-sm text-red-400"
         ></ErrorMessage>
       </div>
@@ -157,7 +157,7 @@ const handleSubmit = validateSubmit(() => {
             v-for="value of radio_options"
             :key="value"
             :for="`radio-${value}`"
-            class="inline-flex items-center text-sm font-medium gap-1"
+            class="inline-flex items-center gap-1 text-sm font-medium"
           >
             <input
               :id="`radio-${value}`"
@@ -171,7 +171,7 @@ const handleSubmit = validateSubmit(() => {
           <!-- INVALID-VALUE -->
           <label
             :for="`radio-${'INVALID-VALUE'}`"
-            class="inline-flex items-center text-sm font-medium gap-1"
+            class="inline-flex items-center gap-1 text-sm font-medium"
           >
             <input
               :id="`radio-${'INVALID-VALUE'}`"
@@ -183,7 +183,7 @@ const handleSubmit = validateSubmit(() => {
             <span>{{ 'INVALID-VALUE' }}</span>
           </label>
         </div>
-        <ErrorMessage for="radio" class="block text-sm text-red-400"></ErrorMessage>
+        <ErrorMessage field="radio" class="block text-sm text-red-400"></ErrorMessage>
       </div>
 
       <div class="space-y-0.5">
@@ -193,7 +193,7 @@ const handleSubmit = validateSubmit(() => {
         <select
           id="single_select"
           v-model="modelValue.single_select"
-          class="border border-gray-400 text-sm rounded-lg block w-full p-2.5"
+          class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
         >
           <option value="" selected disabled>Please select one</option>
           <option v-for="value of single_select_options" :key="value" :value="value">
@@ -204,7 +204,7 @@ const handleSubmit = validateSubmit(() => {
             {{ 'INVALID-VALUE' }}
           </option>
         </select>
-        <ErrorMessage for="single_select" class="block text-sm text-red-400"></ErrorMessage>
+        <ErrorMessage field="single_select" class="block text-sm text-red-400"></ErrorMessage>
       </div>
 
       <div class="space-y-0.5">
@@ -214,7 +214,7 @@ const handleSubmit = validateSubmit(() => {
         <select
           id="multiple_select"
           v-model="modelValue.multiple_select"
-          class="border border-gray-400 text-sm rounded-lg block w-full p-2.5"
+          class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
           multiple
         >
           <option value="" disabled>Please select one or more</option>
@@ -227,8 +227,8 @@ const handleSubmit = validateSubmit(() => {
           </option>
         </select>
         <ErrorMessage
-          for="multiple_select"
-          :nest="true"
+          field="multiple_select"
+          nest
           class="block text-sm text-red-400"
         ></ErrorMessage>
       </div>
@@ -239,7 +239,7 @@ const handleSubmit = validateSubmit(() => {
         type="submit"
         :class="[
           'transition-colors',
-          'focus:outline-none cursor-pointer text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800',
+          'me-2 mb-2 cursor-pointer rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:ring-4 focus:ring-green-300 focus:outline-none dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800',
           'disabled:cursor-not-allowed disabled:bg-green-700/50 disabled:hover:bg-green-800/50 disabled:dark:bg-green-600/50 disabled:dark:hover:bg-green-700/50',
         ]"
       >
