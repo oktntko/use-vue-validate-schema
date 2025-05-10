@@ -19,6 +19,5 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "vue.server.includeLanguages": ["vue", "markdown"],
-  "cSpell.words": ["iconify", "microdiff", "oxlint", "remeda"]
+  "vue.server.includeLanguages": ["vue", "markdown"]
 }

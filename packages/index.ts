@@ -1,15 +1,15 @@
 import microdiff from 'microdiff';
-import * as R from 'remeda';
 import type { Component, PropType, SlotsType, VNode } from 'vue';
 import { computed, defineComponent, h, type Ref, ref, watch } from 'vue';
 import { z } from 'zod';
+import { clone } from './clone.js';
 
 export default function useValidate<T extends z.ZodRawShape>(
   schema: z.ZodEffects<z.ZodObject<T>> | z.ZodObject<T>,
   modelValue: Ref<z.input<typeof schema>>,
 ) {
   // initial value
-  const initialValue = ref(R.clone(modelValue.value));
+  const initialValue = ref(clone(modelValue.value));
 
   const diff = computed(() =>
     microdiff(initialValue.value, modelValue.value, { cyclesFix: false }).map((x) =>
@@ -74,11 +74,11 @@ export default function useValidate<T extends z.ZodRawShape>(
   }
 
   function revert() {
-    modelValue.value = R.clone(initialValue.value);
+    modelValue.value = clone(initialValue.value);
   }
 
   function reset(resetValue: z.input<typeof schema>) {
-    modelValue.value = R.clone(resetValue);
+    modelValue.value = clone(resetValue);
     initialValue.value = resetValue;
   }
 

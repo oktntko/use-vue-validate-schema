@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import * as R from 'remeda';
 import type { InputHTMLAttributes } from 'vue';
 import { computed, ref, useTemplateRef } from 'vue';
 
@@ -44,7 +43,12 @@ const innerValue = computed({
   />
   <input
     v-else
-    v-bind="R.omit($attrs, ['type'])"
+    v-bind="
+      (() => {
+        const { type, ...attrs } = $attrs;
+        return attrs;
+      })()
+    "
     type="text"
     :value="innerValue.toLocaleString()"
     @focus="

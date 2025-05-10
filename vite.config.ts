@@ -20,14 +20,13 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['vue', 'microdiff', 'remeda', 'zod'],
+      external: ['vue', 'microdiff', 'zod'],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
           vue: 'Vue',
           microdiff: 'microdiff',
-          remeda: 'remeda',
           zod: 'zod',
         },
       },
@@ -35,7 +34,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '~': fileURLToPath(new URL('./src', import.meta.url)),
+      '~': fileURLToPath(new URL('./packages', import.meta.url)),
     },
   },
 });

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { omit } from 'remeda';
 import type { InputHTMLAttributes } from 'vue';
 import { ref } from 'vue';
 
@@ -20,7 +19,12 @@ const show = ref(false);
     <input
       v-model="modelValue"
       :type="show ? 'text' : 'password'"
-      v-bind="omit($attrs, ['type'])"
+      v-bind="
+        (() => {
+          const { type, ...attrs } = $attrs;
+          return attrs;
+        })()
+      "
     />
     <div
       class="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-sm leading-5"
