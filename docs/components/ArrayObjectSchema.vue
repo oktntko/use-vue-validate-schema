@@ -45,7 +45,7 @@ function newItem() {
     cost: 0,
     quantity: 0,
     price: 0,
-  } satisfies z.infer<typeof ItemSchema>;
+  } satisfies z.input<typeof ItemSchema>;
 }
 </script>
 

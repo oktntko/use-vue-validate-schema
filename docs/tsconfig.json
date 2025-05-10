@@ -1,10 +1,10 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../tsconfig.app.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@lib": ["../packages"] // ここで @lib → ライブラリ本体を通す
-    }
+    },
   },
   "include": ["./**/*"],
   "vueCompilerOptions": {

@@ -23,10 +23,15 @@ const schema = z.object({
 });
 ```
 
-<script setup>
+<script setup lang="ts">
+import { useTemplateRef } from 'vue'
+
 import BasicUsage from './components/BasicUsage.vue'
 import ComplicatedSchema from './components/ComplicatedSchema.vue'
 import ArrayObjectSchema from './components/ArrayObjectSchema.vue'
+import TransformSchema from './components/TransformSchema.vue'
+
+const refTransformSchema= useTemplateRef<typeof TransformSchema>('refTransformSchema')
 </script>
 
 <BasicUsage></BasicUsage>
@@ -117,6 +122,30 @@ const schema = z.object({
 
 <ArrayObjectSchema></ArrayObjectSchema>
 
-## トランスフォーム
+## Transform Schema
 
-## リファイン
+```ts
+const ItemSchema = z.object({
+  id: z.string().uuid(),
+  item: z.string().min(1).max(50),
+  cost: z.number().int().min(-10_000).max(10_000),
+  quantity: z.number().int().positive().max(100),
+  price: z
+    .number()
+    .int()
+    .min(-10_000 * 100)
+    .max(10_000 * 100 * 100),
+});
+const schema = z.object({
+  issue_date: z.string().date(),
+  due_date: z.string().date(),
+  invoice_to: z.string().trim().min(1).max(50),
+  details: ItemSchema.array().min(1),
+});
+```
+
+<TransformSchema ref="refTransformSchema"></TransformSchema>
+
+```js-vue
+{{refTransformSchema?.validateResult?.data}}
+```

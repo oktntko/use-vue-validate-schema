@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 export default function useValidate<T extends z.ZodRawShape>(
   schema: z.ZodEffects<z.ZodObject<T>> | z.ZodObject<T>,
-  modelValue: Ref<z.infer<typeof schema>>,
+  modelValue: Ref<z.input<typeof schema>>,
 ) {
   // initial value
   const initialValue = ref(R.clone(modelValue.value));
@@ -25,13 +25,15 @@ export default function useValidate<T extends z.ZodRawShape>(
   // watch model & run validate
   watch(modelValue.value, validate);
 
-  async function validate(value: z.infer<typeof schema>) {
-    const validateResult = await schema.safeParseAsync(value);
+  const validateResult = ref<Awaited<ReturnType<typeof schema.safeParseAsync>>>();
 
-    if (validateResult.success) {
+  async function validate(value: z.input<typeof schema>) {
+    validateResult.value = await schema.safeParseAsync(value);
+
+    if (validateResult.value.success) {
       error.value.clear();
     } else {
-      error.value = validateResult.error.issues.reduce((map, issue) => {
+      error.value = validateResult.value.error.issues.reduce((map, issue) => {
         const key = issue.path.join('.');
         const messages = map.get(key);
         if (messages) {
@@ -44,7 +46,7 @@ export default function useValidate<T extends z.ZodRawShape>(
       }, new Map<string, string[]>());
     }
 
-    return validateResult;
+    return validateResult.value;
   }
 
   const isInvalid = computed(() => error.value.size !== 0);
@@ -53,7 +55,7 @@ export default function useValidate<T extends z.ZodRawShape>(
 
   // バリデーションする
   function validateSubmit(
-    callback: (value: z.infer<typeof schema>) => void,
+    callback: (value: z.output<typeof schema>) => void,
     onInvalidSubmit: (error: Map<string, string[]>) => void = handleInvalidSubmit,
   ) {
     return async () => {
@@ -75,7 +77,7 @@ export default function useValidate<T extends z.ZodRawShape>(
     modelValue.value = R.clone(initialValue.value);
   }
 
-  function reset(resetValue: z.infer<typeof schema>) {
+  function reset(resetValue: z.input<typeof schema>) {
     modelValue.value = R.clone(resetValue);
     initialValue.value = resetValue;
   }
@@ -85,12 +87,14 @@ export default function useValidate<T extends z.ZodRawShape>(
     // return dialog.alert('入力値に誤りがあります。');
   }
 
+  type Field = StringPaths<z.infer<typeof schema>>;
+
   const ErrorMessage = defineComponent({
     name: 'ErrorMessage',
     inheritAttrs: false,
     props: {
       field: {
-        type: String as unknown as PropType<StringPaths<z.infer<typeof schema>>>,
+        type: String as unknown as PropType<Field>,
         required: true,
       },
       nest: {
@@ -122,14 +126,13 @@ export default function useValidate<T extends z.ZodRawShape>(
         ) {
           return [];
         }
-
         return getErrorMessages({
-          field: props.field as StringPaths<z.infer<typeof schema>>,
+          field: props.field as Field,
           nest: props.nest,
         });
       });
 
-      return (): VNode => {
+      return () => {
         const { tag } = props;
 
         if (messages.value.length === 0) {
@@ -157,13 +160,7 @@ export default function useValidate<T extends z.ZodRawShape>(
     },
   });
 
-  function getErrorMessages({
-    field,
-    nest = false,
-  }: {
-    field: StringPaths<z.infer<typeof schema>>;
-    nest?: boolean;
-  }) {
+  function getErrorMessages({ field, nest = false }: { field: Field; nest?: boolean }) {
     const nestKey = `${field}.`;
 
     return [
@@ -177,20 +174,11 @@ export default function useValidate<T extends z.ZodRawShape>(
     ];
   }
 
-  function hasError({
-    fields,
-    nest = false,
-  }: {
-    fields: StringPaths<z.infer<typeof schema>>[];
-    nest?: boolean;
-  }) {
-    return fields.map((field) => getErrorMessages({ field, nest })).flat().length > 0;
-  }
-
   return {
     initialValue,
     diff,
     error,
+    validateResult,
     isInvalid,
     isDirty,
     revert,
@@ -198,8 +186,6 @@ export default function useValidate<T extends z.ZodRawShape>(
     submitCount,
     validateSubmit,
     ErrorMessage,
-    getErrorMessages,
-    hasError,
   };
 }
 

@@ -24,13 +24,12 @@ const schema = z.object({
   multiple_select: z.enum(multiple_select_options).array().min(1),
 });
 
-const modelValue = ref<z.infer<typeof schema>>({
+const modelValue = ref<z.input<typeof schema>>({
   text: '',
   textarea: '',
   single_checkbox: false,
   multiple_checkbox: [],
   radio: 'One',
-  // @ts-expect-error 初期値のため空文字を許容する
   single_select: '',
   multiple_select: [],
 });

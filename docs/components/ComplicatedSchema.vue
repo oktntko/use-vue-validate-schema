@@ -63,12 +63,11 @@ const schema = z
     });
   });
 
-const modelValue = ref<z.infer<typeof schema>>({
+const modelValue = ref<z.input<typeof schema>>({
   username: '',
   email: '',
   password: '',
   confirm_password: '',
-  // @ts-expect-error 初期値のため空文字を許容する
   securityQuestions: ['', '', ''],
   securityAnswers: ['', '', ''],
 });
