@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// Basic Usage
-import useValidate from '@lib'; // ← エイリアス経由で読み込み
+import { useVueValidateZod } from '@lib';
 import { ref } from 'vue';
 import { z } from 'zod';
 
@@ -28,7 +27,7 @@ const modelValue = ref<z.input<typeof schema>>({
   text_date: '',
 });
 
-const { validateSubmit, ErrorMessage, validateResult } = useValidate(schema, modelValue);
+const { validateSubmit, ErrorMessage, validateResult } = useVueValidateZod(schema, modelValue);
 
 const handleSubmit = validateSubmit((value) => {
   window.alert(

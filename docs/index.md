@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: 'use-validate-zod-vue'
-  text: 'use-validate-zod-vue'
+  name: 'use-vue-validate-schema'
+  text: 'use-vue-validate-schema'
   tagline: My great project tagline
   actions:
     - theme: brand

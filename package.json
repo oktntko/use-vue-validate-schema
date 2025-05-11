@@ -1,17 +1,37 @@
 {
-  "name": "use-validate-zod-vue",
+  "name": "use-vue-validate-schema",
   "version": "0.0.0",
-  "private": true,
+  "description": "wip",
+  "author": "oktntko@gmail.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oktntko/use-vue-validate-schema"
+  },
+  "homepage": "https://github.com/oktntko/use-vue-validate-schema",
+  "bugs": "https://github.com/oktntko/use-vue-validate-schema/issues",
+  "keywords": [
+    "vue",
+    "validate",
+    "zod"
+  ],
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/index.umd.cjs",
-  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.es.js",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    },
+    "./zod": {
+      "types": "./dist/zod/useVueValidateZod.d.ts",
+      "import": "./dist/zod/index.es.js",
+      "require": "./dist/zod/index.cjs.js"
     }
   },
   "scripts": {
@@ -19,7 +39,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",
-    "build-only": "vite build",
+    "build-only": "vite build && tsc --project tsconfig.app.json --noEmit false --declaration --emitDeclarationOnly --outDir dist",
     "type-check": "vue-tsc --build",
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
@@ -30,7 +50,9 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
-    "microdiff": "^1.5.0",
+    "microdiff": "^1.5.0"
+  },
+  "peerDependencies": {
     "vue": "^3.5.13",
     "zod": "^3.24.4"
   },
@@ -63,6 +85,8 @@
     "vite-plugin-vue-devtools": "^7.7.6",
     "vitepress": "^1.6.3",
     "vitest": "^3.1.3",
-    "vue-tsc": "^2.2.10"
+    "vue": "^3.5.13",
+    "vue-tsc": "^2.2.10",
+    "zod": "^3.24.4"
   }
 }

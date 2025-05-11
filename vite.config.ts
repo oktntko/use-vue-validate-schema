@@ -12,21 +12,24 @@ export default defineConfig({
   plugins: [vue(), vueDevTools()],
   build: {
     lib: {
-      entry: resolve(__dirname, 'packages/index.ts'),
-      name: 'use-validate-zod-vue',
-      // the proper extensions will be added
-      fileName: 'index',
+      entry: {
+        index: resolve(__dirname, 'lib/index.ts'),
+        zod: resolve(__dirname, 'lib/zod/useVueValidateZod.ts'),
+      },
+      name: 'use-vue-validate-schema',
+      fileName: (format, entryName) => {
+        if (entryName === 'index') {
+          return `index.${format}.js`;
+        } else {
+          return `${entryName}/index.${format}.js`;
+        }
+      },
     },
     rollupOptions: {
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
-      external: ['vue', 'microdiff', 'zod'],
+      external: ['vue', 'zod'],
       output: {
-        // Provide global variables to use in the UMD build
-        // for externalized deps
         globals: {
           vue: 'Vue',
-          microdiff: 'microdiff',
           zod: 'zod',
         },
       },
@@ -34,7 +37,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '~': fileURLToPath(new URL('./packages', import.meta.url)),
+      '~': fileURLToPath(new URL('./lib', import.meta.url)),
     },
   },
 });

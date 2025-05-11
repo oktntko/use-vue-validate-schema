@@ -1,14 +1,54 @@
 import microdiff from 'microdiff';
-import type { Component, PropType, SlotsType, VNode } from 'vue';
-import { computed, defineComponent, h, type Ref, ref, watch } from 'vue';
-import { z } from 'zod';
-import { clone } from './clone.js';
+import {
+  type Component,
+  type ComputedRef,
+  type DefineComponent,
+  type PropType,
+  type Ref,
+  type SlotsType,
+  type UnwrapRef,
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  ref,
+  watch,
+} from 'vue';
+import type { z } from 'zod';
+import { clone } from '../clone.js';
 
-export default function useValidate<T extends z.ZodRawShape>(
+export function useVueValidateZod<T extends z.ZodRawShape>(
   schema: z.ZodEffects<z.ZodObject<T>> | z.ZodObject<T>,
   modelValue: Ref<z.input<typeof schema>>,
-) {
-  // initial value
+): {
+  validateSubmit: (
+    callback: (value: z.output<typeof schema>) => void,
+    onInvalidSubmit?: (error: Map<string, string[]>) => void,
+  ) => () => Promise<void>;
+  ErrorMessage: DefineComponent<
+    {
+      field: StringPaths<z.infer<typeof schema>>;
+      nest?: boolean;
+      multiple?: boolean;
+      tag?: string | Component;
+    },
+    {
+      messages: ComputedRef<string[]>;
+    },
+    {
+      default: (props: { messages: string | string[] }) => VNode[]; // slots
+    }
+  >;
+  isInvalid: ComputedRef<boolean>;
+  isDirty: Ref<boolean>;
+  isSubmitted: Ref<boolean>;
+  revert: () => void;
+  reset: (value: UnwrapRef<typeof modelValue>) => void;
+  diff: ComputedRef<string[]>;
+  error: Ref<Map<string, string[]>>;
+  initialValue: typeof modelValue;
+  validateResult: Ref<Awaited<ReturnType<typeof schema.safeParseAsync>>>;
+} {
   const initialValue = ref(clone(modelValue.value));
 
   const diff = computed(() =>
@@ -19,10 +59,8 @@ export default function useValidate<T extends z.ZodRawShape>(
 
   const isDirty = computed(() => diff.value.length > 0);
 
-  // error object
   const error = ref<Map<string, string[]>>(new Map());
 
-  // watch model & run validate
   watch(modelValue.value, validate);
 
   const validateResult = ref<Awaited<ReturnType<typeof schema.safeParseAsync>>>();
@@ -51,21 +89,20 @@ export default function useValidate<T extends z.ZodRawShape>(
 
   const isInvalid = computed(() => error.value.size !== 0);
 
-  const submitCount = ref(0);
+  const isSubmitted = ref(false);
 
-  // バリデーションする
   function validateSubmit(
     callback: (value: z.output<typeof schema>) => void,
     onInvalidSubmit: (error: Map<string, string[]>) => void = handleInvalidSubmit,
   ) {
     return async () => {
-      submitCount.value++;
+      isSubmitted.value = true;
 
       // 値が変更されていないこともあるのでバリデーションする
       const validateResult = await validate(modelValue.value);
 
       if (validateResult.success) {
-        submitCount.value = 0;
+        isSubmitted.value = false;
         return callback(validateResult.data);
       } else {
         return onInvalidSubmit ? onInvalidSubmit(error.value) : undefined;
@@ -82,9 +119,8 @@ export default function useValidate<T extends z.ZodRawShape>(
     initialValue.value = resetValue;
   }
 
-  // const dialog = useDialog();
   async function handleInvalidSubmit() {
-    // return dialog.alert('入力値に誤りがあります。');
+    // TODO
   }
 
   type Field = StringPaths<z.infer<typeof schema>>;
@@ -115,12 +151,12 @@ export default function useValidate<T extends z.ZodRawShape>(
     }>,
     setup(props, { slots, attrs }) {
       const messages = computed<string[]>(() => {
-        // サブミット済みならエラーメッセージを表示する
+        // サブミットを実行していなければエラーメッセージを表示しない
         // 差分がなければエラーメッセージを表示しない
         const nestKey = `${props.field}.`;
 
         if (
-          submitCount.value === 0 &&
+          !isSubmitted.value &&
           !diff.value.includes(props.field as string) &&
           (!props.nest || (props.nest && !diff.value.some((key) => key.startsWith(nestKey))))
         ) {
@@ -139,7 +175,6 @@ export default function useValidate<T extends z.ZodRawShape>(
           return;
         }
 
-        // slotが提供されている場合
         if (slots.default) {
           return h(
             tag,
@@ -148,7 +183,6 @@ export default function useValidate<T extends z.ZodRawShape>(
           );
         }
 
-        // slotがない場合：messages.length に応じて描画内容を変える
         return h(
           tag,
           attrs,
@@ -175,17 +209,24 @@ export default function useValidate<T extends z.ZodRawShape>(
   }
 
   return {
-    initialValue,
-    diff,
-    error,
-    validateResult,
+    //# basic usage
+    validateSubmit,
+    // @ts-expect-error typeof schema
+    ErrorMessage,
+    //# form status
     isInvalid,
     isDirty,
+    isSubmitted,
+    //# helper methods
     revert,
     reset,
-    submitCount,
-    validateSubmit,
-    ErrorMessage,
+    //# inner data for debug
+    diff,
+    error,
+    // @ts-expect-error typeof schema
+    initialValue,
+    // @ts-expect-error typeof schema
+    validateResult,
   };
 }
 

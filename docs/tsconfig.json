@@ -3,8 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@lib": ["../packages"] // ここで @lib → ライブラリ本体を通す
-    },
+      "@lib": ["../lib"] // ここで @lib → ライブラリ本体を通す
+    }
   },
   "include": ["./**/*"],
   "vueCompilerOptions": {

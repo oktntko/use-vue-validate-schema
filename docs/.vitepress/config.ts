@@ -4,13 +4,13 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'use-validate-zod-vue',
-  description: 'use-validate-zod-vue',
+  title: 'use-vue-validate-schema',
+  description: 'use-vue-validate-schema',
   vite: {
     plugins: [tailwindcss()],
     resolve: {
       alias: {
-        '@lib': path.resolve(__dirname, '../../packages'), // ライブラリのルート
+        '@lib': path.resolve(__dirname, '../../lib'), // ライブラリのルート
       },
     },
   },
