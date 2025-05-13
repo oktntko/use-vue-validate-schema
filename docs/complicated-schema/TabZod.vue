@@ -2,7 +2,7 @@
 import { useVueValidateZod } from 'use-vue-validate-schema/zod';
 import { ref } from 'vue';
 import { z } from 'zod';
-import InputPassword from './InputPassword.vue';
+import InputPassword from '../components/InputPassword.vue';
 
 const securityQuestions = [
   "What was your FIRST PET'S NAME?",

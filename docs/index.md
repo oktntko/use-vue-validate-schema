@@ -8,14 +8,17 @@ hero:
   tagline: My great project tagline
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: basic-usage
+      link: /basic-usage
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: complicated-schema
+      link: /complicated-schema
     - theme: alt
-      text: my-examples
-      link: /my-examples
+      text: array-object-schema
+      link: /array-object-schema
+    - theme: alt
+      text: transform-schema
+      link: /transform-schema
 
 features:
   - title: Feature A

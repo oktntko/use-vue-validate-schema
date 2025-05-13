@@ -2,7 +2,7 @@
 import { useVueValidateZod } from 'use-vue-validate-schema/zod';
 import { ref } from 'vue';
 import { z } from 'zod';
-import InputCommaNumber from './InputCommaNumber.vue';
+import InputCommaNumber from '../components/InputCommaNumber.vue';
 
 const ItemSchema = z.object({
   id: z.string().uuid(),
