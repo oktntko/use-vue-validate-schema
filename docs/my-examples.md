@@ -24,14 +24,10 @@ const schema = z.object({
 ```
 
 <script setup lang="ts">
-import { useTemplateRef } from 'vue'
-
 import BasicUsage from './components/BasicUsage.vue'
 import ComplicatedSchema from './components/ComplicatedSchema.vue'
 import ArrayObjectSchema from './components/ArrayObjectSchema.vue'
 import TransformSchema from './components/TransformSchema.vue'
-
-const refTransformSchema= useTemplateRef<typeof TransformSchema>('refTransformSchema')
 </script>
 
 <BasicUsage></BasicUsage>
@@ -144,8 +140,4 @@ const schema = z.object({
 });
 ```
 
-<TransformSchema ref="refTransformSchema"></TransformSchema>
-
-```js-vue
-{{refTransformSchema?.validateResult?.data}}
-```
+<TransformSchema></TransformSchema>

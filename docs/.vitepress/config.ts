@@ -10,7 +10,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
     resolve: {
       alias: {
-        '@lib': path.resolve(__dirname, '../../lib'), // ライブラリのルート
+        'use-vue-validate-schema': path.resolve(__dirname, '../../lib'),
       },
     },
   },

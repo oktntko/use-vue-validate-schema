@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useVueValidateZod } from '@lib';
+import { useVueValidateZod } from 'use-vue-validate-schema/zod';
 import { ref } from 'vue';
 import { z } from 'zod';
 
@@ -27,16 +27,12 @@ const modelValue = ref<z.input<typeof schema>>({
   text_date: '',
 });
 
-const { validateSubmit, ErrorMessage, validateResult } = useVueValidateZod(schema, modelValue);
+const { validateSubmit, ErrorMessage } = useVueValidateZod(schema, modelValue);
 
 const handleSubmit = validateSubmit((value) => {
   window.alert(
     `success! typeof text_number [${typeof value.text_number}] typeof text_date [${typeof value.text_date}]`,
   );
-});
-
-defineExpose({
-  validateResult,
 });
 </script>
 

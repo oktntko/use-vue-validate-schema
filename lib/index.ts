@@ -1,1 +1,1 @@
-export { useVueValidateZod } from './zod/useVueValidateZod.js';
+export { useVueValidateZod } from './zod/index.js';

@@ -29,7 +29,7 @@
       "require": "./dist/index.cjs.js"
     },
     "./zod": {
-      "types": "./dist/zod/useVueValidateZod.d.ts",
+      "types": "./dist/zod/index.d.ts",
       "import": "./dist/zod/index.es.js",
       "require": "./dist/zod/index.cjs.js"
     }

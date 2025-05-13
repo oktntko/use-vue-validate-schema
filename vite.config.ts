@@ -14,7 +14,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(__dirname, 'lib/index.ts'),
-        zod: resolve(__dirname, 'lib/zod/useVueValidateZod.ts'),
+        zod: resolve(__dirname, 'lib/zod/index.ts'),
       },
       name: 'use-vue-validate-schema',
       fileName: (format, entryName) => {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useVueValidateZod } from '@lib';
+import { useVueValidateZod } from 'use-vue-validate-schema/zod';
 import { ref } from 'vue';
 import { z } from 'zod';
 import InputCommaNumber from './InputCommaNumber.vue';
@@ -172,25 +172,25 @@ function newItem() {
         </div>
 
         <div>
-          <ErrorMessage v-slot="{ messages }" :field="`details.${i}.item`">
+          <ErrorMessage #="{ messages }" :field="`details.${i}.item`">
             <span class="text-sm">item : </span>
             <div class="inline-block text-sm text-red-400">
               {{ messages }}
             </div>
           </ErrorMessage>
-          <ErrorMessage v-slot="{ messages }" :field="`details.${i}.cost`">
+          <ErrorMessage #="{ messages }" :field="`details.${i}.cost`">
             <span class="text-sm">cost : </span>
             <div class="inline-block text-sm text-red-400">
               {{ messages }}
             </div>
           </ErrorMessage>
-          <ErrorMessage v-slot="{ messages }" :field="`details.${i}.quantity`">
+          <ErrorMessage #="{ messages }" :field="`details.${i}.quantity`">
             <span class="text-sm">quantity : </span>
             <div class="inline-block text-sm text-red-400">
               {{ messages }}
             </div>
           </ErrorMessage>
-          <ErrorMessage v-slot="{ messages }" :field="`details.${i}.price`">
+          <ErrorMessage #="{ messages }" :field="`details.${i}.price`">
             <span class="text-sm">price : </span>
             <div class="inline-block text-sm text-red-400">
               {{ messages }}

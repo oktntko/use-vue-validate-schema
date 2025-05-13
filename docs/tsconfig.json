@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@lib": ["../lib"] // ここで @lib → ライブラリ本体を通す
+      "use-vue-validate-schema/*": ["../lib/*"]
     }
   },
   "include": ["./**/*"],

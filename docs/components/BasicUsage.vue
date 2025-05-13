@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useVueValidateZod } from '@lib';
+import { useVueValidateZod } from 'use-vue-validate-schema/zod';
 import { ref } from 'vue';
 import { z } from 'zod';
 
