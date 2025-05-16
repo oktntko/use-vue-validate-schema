@@ -14,6 +14,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(__dirname, 'lib/index.ts'),
+        valibot: resolve(__dirname, 'lib/valibot/index.ts'),
         zod: resolve(__dirname, 'lib/zod/index.ts'),
       },
       name: 'use-vue-validate-schema',
@@ -26,10 +27,11 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: ['vue', 'zod'],
+      external: ['vue', 'valibot', 'zod'],
       output: {
         globals: {
           vue: 'Vue',
+          valibot: 'valibot',
           zod: 'zod',
         },
       },

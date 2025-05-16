@@ -84,6 +84,9 @@ importers:
       typescript:
         specifier: ~5.8.3
         version: 5.8.3
+      valibot:
+        specifier: ^1.1.0
+        version: 1.1.0(typescript@5.8.3)
       vite:
         specifier: ^6.3.5
         version: 6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)
@@ -93,6 +96,9 @@ importers:
       vitepress:
         specifier: ^1.6.3
         version: 1.6.3(@algolia/client-search@5.24.0)(@types/node@22.15.17)(lightningcss@1.29.2)(postcss@8.5.3)(search-insights@2.17.3)(typescript@5.8.3)
+      vitepress-plugin-tabs:
+        specifier: ^0.7.1
+        version: 0.7.1(vitepress@1.6.3(@algolia/client-search@5.24.0)(@types/node@22.15.17)(lightningcss@1.29.2)(postcss@8.5.3)(search-insights@2.17.3)(typescript@5.8.3))(vue@3.5.13(typescript@5.8.3))
       vitest:
         specifier: ^3.1.3
         version: 3.1.3(@types/node@22.15.17)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)
@@ -2960,6 +2966,14 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+  valibot@1.1.0:
+    resolution: {integrity: sha512-Nk8lX30Qhu+9txPYTwM0cFlWLdPFsFr6LblzqIySfbZph9+BFsAHsNvHOymEviUepeIW6KFHzpX8TKhbptBXXw==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
@@ -3071,6 +3085,12 @@ packages:
         optional: true
       yaml:
         optional: true
+
+  vitepress-plugin-tabs@0.7.1:
+    resolution: {integrity: sha512-jxJvsicxnMSIYX9b8mAFLD2nwyKUcMO10dEt4nDSbinZhM8cGvAmMFOHPdf6TBX6gYZRl+/++/iYHtoM14fERQ==}
+    peerDependencies:
+      vitepress: ^1.0.0
+      vue: ^3.5.0
 
   vitepress@1.6.3:
     resolution: {integrity: sha512-fCkfdOk8yRZT8GD9BFqusW3+GggWYZ/rYncOfmgcDtP3ualNHCAg+Robxp2/6xfH1WwPHtGpPwv7mbA3qomtBw==}
@@ -6057,6 +6077,10 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
+  valibot@1.1.0(typescript@5.8.3):
+    optionalDependencies:
+      typescript: 5.8.3
+
   vary@1.1.2: {}
 
   vfile-message@4.0.2:
@@ -6164,6 +6188,11 @@ snapshots:
       fsevents: 2.3.3
       jiti: 2.4.2
       lightningcss: 1.29.2
+
+  vitepress-plugin-tabs@0.7.1(vitepress@1.6.3(@algolia/client-search@5.24.0)(@types/node@22.15.17)(lightningcss@1.29.2)(postcss@8.5.3)(search-insights@2.17.3)(typescript@5.8.3))(vue@3.5.13(typescript@5.8.3)):
+    dependencies:
+      vitepress: 1.6.3(@algolia/client-search@5.24.0)(@types/node@22.15.17)(lightningcss@1.29.2)(postcss@8.5.3)(search-insights@2.17.3)(typescript@5.8.3)
+      vue: 3.5.13(typescript@5.8.3)
 
   vitepress@1.6.3(@algolia/client-search@5.24.0)(@types/node@22.15.17)(lightningcss@1.29.2)(postcss@8.5.3)(search-insights@2.17.3)(typescript@5.8.3):
     dependencies:

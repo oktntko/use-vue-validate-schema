@@ -1,6 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 import { defineConfig } from 'vitepress';
+import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -21,7 +22,6 @@ export default defineConfig({
       { text: 'basic-usage', link: '/basic-usage' },
       { text: 'complicated-schema', link: '/complicated-schema' },
       { text: 'array-object-schema', link: '/array-object-schema' },
-      { text: 'transform-schema', link: '/transform-schema' },
     ],
 
     sidebar: [
@@ -31,11 +31,15 @@ export default defineConfig({
           { text: 'basic-usage', link: '/basic-usage' },
           { text: 'complicated-schema', link: '/complicated-schema' },
           { text: 'array-object-schema', link: '/array-object-schema' },
-          { text: 'transform-schema', link: '/transform-schema' },
         ],
       },
     ],
 
     socialLinks: [{ icon: 'github', link: 'https://github.com/vuejs/vitepress' }],
+  },
+  markdown: {
+    config(md) {
+      md.use(tabsMarkdownPlugin);
+    },
   },
 });

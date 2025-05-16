@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import microdiff from 'microdiff';
+import * as v from 'valibot';
 import {
   type Component,
   type ComponentOptionsMixin,
@@ -22,21 +23,24 @@ import {
   ref,
   watch,
 } from 'vue';
-import type { z } from 'zod';
 import { clone } from '../clone.js';
 
-export function useVueValidateZod<T extends z.ZodRawShape>(
-  schema: z.ZodEffects<z.ZodObject<T>> | z.ZodObject<T>,
-  modelValue: Ref<z.input<typeof schema>>,
+export function useVueValidateValibot<
+  TInput extends object,
+  TOutput extends object,
+  TIssue extends v.BaseIssue<unknown>,
+>(
+  schema: v.BaseSchema<TInput, TOutput, TIssue>,
+  modelValue: Ref<v.InferInput<typeof schema>>,
 ): {
   validateSubmit: (
-    callback: (value: z.output<typeof schema>) => void,
+    callback: (value: v.InferOutput<typeof schema>) => void,
     onInvalidSubmit?: (error: Map<string, string[]>) => void,
   ) => () => Promise<void>;
   ErrorMessage: DefineComponent<
     ExtractPropTypes<{
       field: {
-        type: PropType<StringPaths<z.infer<typeof schema>>>;
+        type: PropType<StringPaths<v.InferInput<typeof schema>>>;
         required: true;
       };
       nest: {
@@ -73,7 +77,7 @@ export function useVueValidateZod<T extends z.ZodRawShape>(
     ToResolvedProps<
       ExtractPropTypes<{
         field: {
-          type: PropType<StringPaths<z.infer<typeof schema>>>;
+          type: PropType<StringPaths<v.InferInput<typeof schema>>>;
           required: true;
         };
         nest: {
@@ -112,12 +116,15 @@ export function useVueValidateZod<T extends z.ZodRawShape>(
   isDirty: DeepReadonly<Ref<boolean>>;
   isSubmitted: DeepReadonly<Ref<boolean>>;
   revert: () => void;
-  reset: (value: z.input<typeof schema>) => void;
+  reset: (value: v.InferInput<typeof schema>) => void;
   getErrorMessages: (params: {
-    field: StringPaths<z.infer<typeof schema>>;
+    field: StringPaths<v.InferInput<typeof schema>>;
     nest?: boolean;
   }) => string[];
-  hasError: (params: { field: StringPaths<z.infer<typeof schema>>; nest?: boolean }) => boolean;
+  hasError: (params: {
+    field: StringPaths<v.InferInput<typeof schema>>;
+    nest?: boolean;
+  }) => boolean;
   diff: ComputedRef<string[]>;
   error: DeepReadonly<Ref<Map<string, string[]>>>;
 } {
@@ -125,26 +132,31 @@ export function useVueValidateZod<T extends z.ZodRawShape>(
 
   const error = ref<Map<string, string[]>>(new Map());
 
-  let validateResult: Awaited<ReturnType<typeof schema.safeParseAsync>> | undefined = undefined;
+  let validateResult: Awaited<ReturnType<typeof v.safeParseAsync<typeof schema>>> | undefined =
+    undefined;
 
   watch(modelValue.value, validate);
 
-  async function validate(value: z.input<typeof schema>) {
-    validateResult = await schema.safeParseAsync(value);
+  async function validate(value: v.InferInput<typeof schema>) {
+    validateResult = await v.safeParseAsync(schema, value);
 
     error.value.clear();
     if (!validateResult.success) {
-      error.value = validateResult.error.issues.reduce((map, issue) => {
-        const key = issue.path.join('.');
-        const messages = map.get(key);
-        if (messages) {
-          messages.push(issue.message);
-        } else {
-          map.set(key, [issue.message]);
-        }
+      const flatten = v.flatten(validateResult.issues);
+      if (flatten.nested) {
+        error.value = Object.entries(flatten.nested).reduce((map, [key, value]) => {
+          if (!value) return map;
 
-        return map;
-      }, new Map<string, string[]>());
+          const messages = map.get(key);
+          if (messages) {
+            messages.push(...value);
+          } else {
+            map.set(key, value);
+          }
+
+          return map;
+        }, new Map<string, string[]>());
+      }
     }
 
     return validateResult;
@@ -155,7 +167,7 @@ export function useVueValidateZod<T extends z.ZodRawShape>(
   const isSubmitted = ref(false);
 
   function validateSubmit(
-    callback: (value: z.output<typeof schema>) => void,
+    callback: (value: v.InferOutput<typeof schema>) => void,
     onInvalidSubmit: (error: Map<string, string[]>) => void = handleInvalidSubmit,
   ) {
     return async () => {
@@ -166,7 +178,7 @@ export function useVueValidateZod<T extends z.ZodRawShape>(
 
       if (validateResult.success) {
         isSubmitted.value = false;
-        return callback(validateResult.data);
+        return callback(validateResult.output);
       } else {
         return onInvalidSubmit ? onInvalidSubmit(error.value) : undefined;
       }
@@ -177,7 +189,7 @@ export function useVueValidateZod<T extends z.ZodRawShape>(
     modelValue.value = clone(initialValue);
   }
 
-  function reset(resetValue: z.input<typeof schema>) {
+  function reset(resetValue: v.InferInput<typeof schema>) {
     initialValue = resetValue;
     modelValue.value = clone(resetValue);
     error.value.clear();
@@ -194,7 +206,7 @@ export function useVueValidateZod<T extends z.ZodRawShape>(
 
   const isDirty = computed(() => diff.value.length > 0);
 
-  type Field = StringPaths<z.infer<typeof schema>>;
+  type Field = StringPaths<v.InferInput<typeof schema>>;
 
   const ErrorMessage = defineComponent({
     name: 'ErrorMessage',

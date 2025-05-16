@@ -4,11 +4,17 @@ outline: deep
 
 <script setup lang="ts">
 import TabZod from './TabZod.vue'
+import TabValibot from './TabValibot.vue'
 </script>
 
 # Basic Usage
 
+:::tabs key:schema
+== zod
 <TabZod></TabZod>
+== valibot
+<TabValibot></TabValibot>
+:::
 
 - ポイント１．
   - zodスキーマと対象のRefオブジェクトに対してバリデーションをします

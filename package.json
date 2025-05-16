@@ -28,6 +28,11 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.cjs.js"
     },
+    "./valibot": {
+      "types": "./dist/valibot/index.d.ts",
+      "import": "./dist/valibot/index.es.js",
+      "require": "./dist/valibot/index.cjs.js"
+    },
     "./zod": {
       "types": "./dist/zod/index.d.ts",
       "import": "./dist/zod/index.es.js",
@@ -54,7 +59,16 @@
   },
   "peerDependencies": {
     "vue": "^3.5.13",
+    "valibot": "^1.1.0",
     "zod": "^3.24.4"
+  },
+  "peerDependenciesMeta": {
+    "valibot": {
+      "optional": true
+    },
+    "zod": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@iconify/json": "^2.2.336",
@@ -81,9 +95,11 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^4.1.6",
     "typescript": "~5.8.3",
+    "valibot": "^1.1.0",
     "vite": "^6.3.5",
     "vite-plugin-vue-devtools": "^7.7.6",
     "vitepress": "^1.6.3",
+    "vitepress-plugin-tabs": "^0.7.1",
     "vitest": "^3.1.3",
     "vue": "^3.5.13",
     "vue-tsc": "^2.2.10",

@@ -16,9 +16,6 @@ hero:
     - theme: alt
       text: array-object-schema
       link: /array-object-schema
-    - theme: alt
-      text: transform-schema
-      link: /transform-schema
 
 features:
   - title: Feature A
