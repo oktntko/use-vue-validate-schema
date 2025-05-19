@@ -7,6 +7,7 @@ import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs';
 export default defineConfig({
   title: 'use-vue-validate-schema',
   description: 'use-vue-validate-schema',
+  base: '/use-vue-validate-schema/',
   vite: {
     plugins: [tailwindcss()],
     resolve: {
