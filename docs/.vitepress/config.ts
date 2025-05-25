@@ -5,8 +5,8 @@ import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'use-vue-validate-schema',
-  description: 'use-vue-validate-schema',
+  title: 'UseVueValidateSchema',
+  description: 'Use Vue As Is, Simple Form Validation',
   base: '/use-vue-validate-schema/',
   vite: {
     plugins: [tailwindcss()],
@@ -17,6 +17,10 @@ export default defineConfig({
     },
   },
   themeConfig: {
+    logo: '/logo.svg',
+    search: {
+      provider: 'local',
+    },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
