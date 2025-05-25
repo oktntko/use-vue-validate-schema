@@ -101,8 +101,8 @@ const modelValue = ref<v.InferInput<typeof schema>>({
 
 const { validateSubmit, ErrorMessage } = useVueValidateValibot(schema, modelValue);
 
-const handleSubmit = validateSubmit((output) => {
-  window.alert('success!' + JSON.stringify(output));
+const handleSubmit = validateSubmit(() => {
+  window.alert('success!');
 });
 </script>
 

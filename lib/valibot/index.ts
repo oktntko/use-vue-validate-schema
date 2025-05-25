@@ -23,6 +23,7 @@ import {
   ref,
   watch,
 } from 'vue';
+import type { PartialRecord, StringPaths, ToResolvedProps } from '../@types/type.js';
 import { clone } from '../clone.js';
 
 export function useVueValidateValibot<
@@ -35,7 +36,11 @@ export function useVueValidateValibot<
 ): {
   validateSubmit: (
     callback: (value: v.InferOutput<typeof schema>) => void,
-    onInvalidSubmit?: (error: Map<string, string[]>) => void,
+    options?: {
+      handleValidateError?: (
+        error: PartialRecord<StringPaths<v.InferInput<typeof schema>>, string[]>,
+      ) => void;
+    },
   ) => () => Promise<void>;
   ErrorMessage: DefineComponent<
     ExtractPropTypes<{
@@ -101,7 +106,7 @@ export function useVueValidateValibot<
       tag: string | Component;
     },
     SlotsType<{
-      default: (props: { messages: string | string[] }) => VNode[];
+      default: (props: { messages: string[]; message: string }) => VNode[];
     }>,
     {},
     {},
@@ -113,74 +118,107 @@ export function useVueValidateValibot<
     any
   >;
   isInvalid: ComputedRef<boolean>;
-  isDirty: DeepReadonly<Ref<boolean>>;
-  isSubmitted: DeepReadonly<Ref<boolean>>;
+  isDirty: ComputedRef<boolean>;
+  isSubmitted: Readonly<Ref<boolean>>;
   revert: () => void;
   reset: (value: v.InferInput<typeof schema>) => void;
-  getErrorMessages: (params: {
-    field: StringPaths<v.InferInput<typeof schema>>;
-    nest?: boolean;
-  }) => string[];
-  hasError: (params: {
-    field: StringPaths<v.InferInput<typeof schema>>;
-    nest?: boolean;
-  }) => boolean;
   diff: ComputedRef<string[]>;
-  error: DeepReadonly<Ref<Map<string, string[]>>>;
+  error: DeepReadonly<Ref<PartialRecord<StringPaths<v.InferInput<typeof schema>>, string[]>>>;
+  errorNest: ComputedRef<PartialRecord<StringPaths<v.InferInput<typeof schema>>, string[]>>;
 } {
+  type Field = StringPaths<v.InferInput<typeof schema>>;
+
   let initialValue = clone(modelValue.value);
 
-  const error = ref<Map<string, string[]>>(new Map());
+  const error = ref<PartialRecord<Field, string[]>>({});
+
+  const isInvalid = computed(() => error.value.size !== 0);
+
+  const diff = computed(() =>
+    microdiff(initialValue, modelValue.value, { cyclesFix: false }).map((x) => x.path.join('.')),
+  );
+
+  const isDirty = computed(() => diff.value.length > 0);
+
+  const isSubmitted = ref(false);
 
   let validateResult: Awaited<ReturnType<typeof v.safeParseAsync<typeof schema>>> | undefined =
     undefined;
 
-  watch(modelValue.value, validate);
+  watch(modelValue.value, (newValue) => validate(newValue, { diffOnly: true }));
 
-  async function validate(value: v.InferInput<typeof schema>) {
+  async function validate(value: v.InferInput<typeof schema>, options?: { diffOnly: boolean }) {
     validateResult = await v.safeParseAsync(schema, value);
 
-    error.value.clear();
-    if (!validateResult.success) {
-      const flatten = v.flatten(validateResult.issues);
-      if (flatten.nested) {
-        error.value = Object.entries(flatten.nested).reduce((map, [key, value]) => {
+    if (validateResult.success) {
+      error.value = {};
+      return validateResult;
+    }
+
+    const flatten = v.flatten(validateResult.issues);
+    if (flatten.nested) {
+      error.value = Object.entries(flatten.nested).reduce(
+        (map, [key, value]) => {
           if (!value) return map;
 
-          const messages = map.get(key);
+          if (options?.diffOnly && !isSubmitted.value && !diff.value.includes(key)) {
+            return map;
+          }
+
+          const messages = map[key as Field] as string[] | undefined;
           if (messages) {
             messages.push(...value);
           } else {
-            map.set(key, value);
+            map[key as Field] = value;
           }
 
           return map;
-        }, new Map<string, string[]>());
-      }
+        },
+        {} as PartialRecord<Field, string[]>,
+      );
     }
 
     return validateResult;
   }
 
-  const isInvalid = computed(() => error.value.size !== 0);
+  const errorNest = computed(() => {
+    return Object.entries(error.value).reduce(
+      (map, [key, messages]) => {
+        const parts = key.split('.');
 
-  const isSubmitted = ref(false);
+        for (let i = 0; i < parts.length; i++) {
+          const newkey = parts.slice(0, i + 1).join('.') as Field;
+
+          const parent = map[newkey] as string[] | undefined;
+          if (parent) {
+            parent.push(...(messages as string[]));
+          } else {
+            map[newkey] = messages as string[];
+          }
+        }
+
+        return map;
+      },
+      {} as PartialRecord<Field, string[]>,
+    );
+  });
 
   function validateSubmit(
     callback: (value: v.InferOutput<typeof schema>) => void,
-    onInvalidSubmit: (error: Map<string, string[]>) => void = handleInvalidSubmit,
+    {
+      handleValidateError = handleInvalidSubmit,
+    }: { handleValidateError?: (error: PartialRecord<Field, string[]>) => void } = {},
   ) {
     return async () => {
       isSubmitted.value = true;
 
-      // 値が変更されていないこともあるのでバリデーションする
       const validateResult = await validate(modelValue.value);
 
       if (validateResult.success) {
         isSubmitted.value = false;
         return callback(validateResult.output);
       } else {
-        return onInvalidSubmit ? onInvalidSubmit(error.value) : undefined;
+        return handleValidateError ? handleValidateError(error.value) : undefined;
       }
     };
   }
@@ -192,21 +230,13 @@ export function useVueValidateValibot<
   function reset(resetValue: v.InferInput<typeof schema>) {
     initialValue = resetValue;
     modelValue.value = clone(resetValue);
-    error.value.clear();
+    error.value = {};
     isSubmitted.value = false;
   }
 
   async function handleInvalidSubmit() {
     // TODO
   }
-
-  const diff = computed(() =>
-    microdiff(initialValue, modelValue.value, { cyclesFix: false }).map((x) => x.path.join('.')),
-  );
-
-  const isDirty = computed(() => diff.value.length > 0);
-
-  type Field = StringPaths<v.InferInput<typeof schema>>;
 
   const ErrorMessage = defineComponent({
     name: 'ErrorMessage',
@@ -230,15 +260,20 @@ export function useVueValidateValibot<
       },
     },
     slots: Object as SlotsType<{
-      default: (props: { messages: string | string[] }) => VNode[];
+      default: (props: { messages: string[]; message: string }) => VNode[];
     }>,
     setup(props, { slots, attrs }) {
-      const messages = computed<string[]>(() =>
-        getErrorMessages({
-          field: props.field as Field,
-          nest: props.nest,
-        }),
-      );
+      const messages = computed<string[]>(() => {
+        return [
+          ...(error.value[props.field] ?? []),
+          ...(props.nest
+            ? Array.from(Object.entries(error.value))
+                .filter(([key]) => key.startsWith(`${props.field}.`))
+                .map(([_, value]) => value)
+                .flat()
+            : []),
+        ];
+      });
 
       return () => {
         const { tag } = props;
@@ -251,7 +286,7 @@ export function useVueValidateValibot<
           return h(
             tag,
             attrs,
-            slots.default({ messages: props.multiple ? messages.value : messages.value[0] }),
+            slots.default({ messages: messages.value, message: messages.value[0] }),
           );
         }
 
@@ -266,49 +301,21 @@ export function useVueValidateValibot<
     },
   });
 
-  function getErrorMessages(params: { field: Field; nest?: boolean }) {
-    // サブミットを実行していなければエラーメッセージを表示しない
-    // 差分がなければエラーメッセージを表示しない
-    const nestKey = `${params.field}.`;
-
-    if (
-      !isSubmitted.value &&
-      !diff.value.includes(params.field as string) &&
-      (!params.nest || (params.nest && !diff.value.some((key) => key.startsWith(nestKey))))
-    ) {
-      return [];
-    }
-
-    return [
-      ...(error.value.get(params.field) ?? []),
-      ...(params.nest
-        ? Array.from(error.value.entries())
-            .filter(([key]) => key.startsWith(nestKey))
-            .map(([_, value]) => value)
-            .flat()
-        : []),
-    ];
-  }
-
-  function hasError(params: { field: Field; nest?: boolean }) {
-    return getErrorMessages(params).length > 0;
-  }
-
   return {
     //# basic usage
     validateSubmit,
     ErrorMessage,
     //# form status
     isInvalid,
-    isDirty: readonly(isDirty),
+    isDirty,
     isSubmitted: readonly(isSubmitted),
     //# helper methods
     revert,
     reset,
-    getErrorMessages,
-    hasError,
     //# inner data for debug
     diff,
+    // @ts-expect-error TODO
     error: readonly(error),
+    errorNest,
   };
 }

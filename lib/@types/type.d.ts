@@ -18,8 +18,9 @@ type Paths<T, D extends number = 4> = D extends never
       }[keyof T]
     : '';
 
-declare global {
-  type StringPaths<T> = Extract<Paths<T>, string>;
-  type ToResolvedProps<Props, Emits extends EmitsOptions> = Readonly<Props> &
-    Readonly<EmitsToProps<Emits>>;
-}
+export type StringPaths<T> = Extract<Paths<T>, string>;
+export type ToResolvedProps<Props, Emits extends EmitsOptions> = Readonly<Props> &
+  Readonly<EmitsToProps<Emits>>;
+export type PartialRecord<K extends PropertyKey, T> = {
+  [P in K]?: T;
+};

@@ -172,28 +172,28 @@ function newItem() {
         </div>
 
         <div>
-          <ErrorMessage #="{ messages }" :field="`details.${i}.item`">
+          <ErrorMessage #="{ message }" :field="`details.${i}.item`">
             <span class="text-sm">item : </span>
             <div class="inline-block text-sm text-red-400">
-              {{ messages }}
+              {{ message }}
             </div>
           </ErrorMessage>
-          <ErrorMessage #="{ messages }" :field="`details.${i}.cost`">
+          <ErrorMessage #="{ message }" :field="`details.${i}.cost`">
             <span class="text-sm">cost : </span>
             <div class="inline-block text-sm text-red-400">
-              {{ messages }}
+              {{ message }}
             </div>
           </ErrorMessage>
-          <ErrorMessage #="{ messages }" :field="`details.${i}.quantity`">
+          <ErrorMessage #="{ message }" :field="`details.${i}.quantity`">
             <span class="text-sm">quantity : </span>
             <div class="inline-block text-sm text-red-400">
-              {{ messages }}
+              {{ message }}
             </div>
           </ErrorMessage>
-          <ErrorMessage #="{ messages }" :field="`details.${i}.price`">
+          <ErrorMessage #="{ message }" :field="`details.${i}.price`">
             <span class="text-sm">price : </span>
             <div class="inline-block text-sm text-red-400">
-              {{ messages }}
+              {{ message }}
             </div>
           </ErrorMessage>
         </div>

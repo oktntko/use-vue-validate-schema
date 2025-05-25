@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useVueValidateValibot } from 'use-vue-validate-schema/valibot';
 import * as v from 'valibot';
 import { ref } from 'vue';
 
@@ -33,14 +34,11 @@ const modelValue = ref<v.InferInput<typeof schema>>({
   multiple_select: [],
 });
 
-const handleSubmit = async () => {
-  const result = await v.safeParseAsync(schema, modelValue.value);
-  if (result.success) {
-    console.log('success', result.output);
-  } else {
-    console.log('fail', result.issues);
-  }
-};
+const { validateSubmit, ErrorMessage } = useVueValidateValibot(schema, modelValue);
+
+const handleSubmit = validateSubmit(() => {
+  window.alert('success!');
+});
 </script>
 
 <template>
@@ -56,7 +54,7 @@ const handleSubmit = async () => {
           type="text"
           class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
         />
-        <!-- <ErrorMessage field="text" class="block text-sm text-red-400"></ErrorMessage> -->
+        <ErrorMessage field="text" class="block text-sm text-red-400"></ErrorMessage>
         <div class="text-right text-xs text-gray-400">{{ modelValue.text.length }} / 10</div>
       </div>
 
@@ -70,7 +68,7 @@ const handleSubmit = async () => {
           class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
           rows="3"
         />
-        <!-- <ErrorMessage field="textarea" class="block text-sm text-red-400"></ErrorMessage> -->
+        <ErrorMessage field="textarea" class="block text-sm text-red-400"></ErrorMessage>
         <div class="text-right text-xs text-gray-400">{{ modelValue.textarea.length }} / 100</div>
       </div>
 
@@ -104,7 +102,7 @@ const handleSubmit = async () => {
             <span>INVALID-VALUE</span>
           </label>
         </div>
-        <!-- <ErrorMessage field="single_checkbox" class="block text-sm text-red-400"></ErrorMessage> -->
+        <ErrorMessage field="single_checkbox" class="block text-sm text-red-400"></ErrorMessage>
       </div>
 
       <div class="space-y-0.5">
@@ -142,11 +140,11 @@ const handleSubmit = async () => {
             <span>{{ 'INVALID-VALUE' }}</span>
           </label>
         </div>
-        <!-- <ErrorMessage
+        <ErrorMessage
           field="multiple_checkbox"
           nest
           class="block text-sm text-red-400"
-        ></ErrorMessage> -->
+        ></ErrorMessage>
       </div>
 
       <div class="space-y-0.5">
@@ -184,7 +182,7 @@ const handleSubmit = async () => {
             <span>{{ 'INVALID-VALUE' }}</span>
           </label>
         </div>
-        <!-- <ErrorMessage field="radio" class="block text-sm text-red-400"></ErrorMessage> -->
+        <ErrorMessage field="radio" class="block text-sm text-red-400"></ErrorMessage>
       </div>
 
       <div class="space-y-0.5">
@@ -205,7 +203,7 @@ const handleSubmit = async () => {
             {{ 'INVALID-VALUE' }}
           </option>
         </select>
-        <!-- <ErrorMessage field="single_select" class="block text-sm text-red-400"></ErrorMessage> -->
+        <ErrorMessage field="single_select" class="block text-sm text-red-400"></ErrorMessage>
       </div>
 
       <div class="space-y-0.5">
@@ -227,11 +225,11 @@ const handleSubmit = async () => {
             {{ 'INVALID-VALUE' }}
           </option>
         </select>
-        <!-- <ErrorMessage
+        <ErrorMessage
           field="multiple_select"
           nest
           class="block text-sm text-red-400"
-        ></ErrorMessage> -->
+        ></ErrorMessage>
       </div>
     </section>
 
