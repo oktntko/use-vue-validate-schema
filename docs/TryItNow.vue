@@ -34,8 +34,6 @@ const handleSubmit = validateSubmit(
 
 <template>
   <form autocomplete="off" class="mx-auto my-16 max-w-sm" @submit.prevent="handleSubmit">
-    <div class="my-6 text-center text-4xl font-bold">Try it now!</div>
-
     <div class="my-4 flex items-center justify-center">
       <input
         id="use"
@@ -79,13 +77,15 @@ const handleSubmit = validateSubmit(
       <button type="submit" class="text-center outline-none" tabindex="-1">
         <a
           id="GettingStarted.vue-link"
-          href="/use-vue-validate-schema/quick-start/"
+          href="/use-vue-validate-schema/getting-started/"
           type="submit"
           class="rounded-full px-5 py-2.5 text-center font-medium no-underline"
           :class="
             isInvalid
               ? ['bg-red-700 text-white hover:bg-red-800 dark:bg-red-600 dark:hover:bg-red-700']
-              : ['bg-blue-700 text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700']
+              : [
+                  'border-[var(--vp-button-brand-border)] bg-[var(--vp-button-brand-bg)] text-[var(--vp-button-brand-text)] hover:bg-[var(--vp-button-brand-hover-bg)]',
+                ]
           "
         >
           {{ isInvalid ? `Enter 'uvvs'!` : 'Getting Started' }}

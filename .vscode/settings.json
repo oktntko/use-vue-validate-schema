@@ -19,5 +19,8 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "vue.server.includeLanguages": ["vue", "markdown"]
+  "vue.server.includeLanguages": ["vue", "markdown"],
+  "[makdown]": {
+    "editor.formatOnSave": false
+  }
 }

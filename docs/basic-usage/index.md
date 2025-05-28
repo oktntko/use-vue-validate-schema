@@ -10,7 +10,7 @@ import TabValibot from './TabValibot.vue'
 # Basic Usage
 
 :::tabs key:schema
-== zod
+== zod(v3)
 <TabZod></TabZod>
 == valibot
 <TabValibot></TabValibot>

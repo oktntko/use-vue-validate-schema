@@ -16,26 +16,39 @@ export default defineConfig({
       },
     },
   },
+  head: [['link', { rel: 'icon', href: '/use-vue-validate-schema/favicon.ico' }]],
   themeConfig: {
     logo: '/logo.svg',
+
     search: {
       provider: 'local',
     },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'basic-usage', link: '/basic-usage' },
-      { text: 'complicated-schema', link: '/complicated-schema' },
-      { text: 'array-object-schema', link: '/array-object-schema' },
+      { text: 'Introduction', link: '/getting-started' },
+      { text: 'Reference', link: '/reference' },
+      { text: 'Live Examples', link: '/basic-usage' },
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: 'Introduction',
         items: [
-          { text: 'basic-usage', link: '/basic-usage' },
-          { text: 'complicated-schema', link: '/complicated-schema' },
-          { text: 'array-object-schema', link: '/array-object-schema' },
+          { text: 'Getting Started', link: '/getting-started' },
+          { text: 'xxx', link: '/xxx' },
+          { text: 'xxx', link: '/xxx' },
+        ],
+      },
+      {
+        text: 'Reference',
+        items: [{ text: 'Reference', link: '/reference' }],
+      },
+      {
+        text: 'Live Examples',
+        items: [
+          { text: 'Basic Usage', link: '/basic-usage' },
+          { text: 'Array Object Schema', link: '/array-object-schema' },
+          { text: 'Complicated Schema', link: '/complicated-schema' },
         ],
       },
     ],
