@@ -25,30 +25,40 @@ export default defineConfig({
     },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Introduction', link: '/getting-started' },
-      { text: 'Reference', link: '/reference' },
-      { text: 'Live Examples', link: '/basic-usage' },
+      { text: 'Introduction', link: '/introduction/getting-started' },
+      { text: 'Reference', link: '/reference/validateSubmit' },
+      { text: 'Examples', link: '/examples/basic-usage' },
     ],
 
     sidebar: [
       {
         text: 'Introduction',
         items: [
-          { text: 'Getting Started', link: '/getting-started' },
-          { text: 'xxx', link: '/xxx' },
-          { text: 'xxx', link: '/xxx' },
+          { text: 'Getting Started', link: '/introduction/getting-started' },
+          { text: 'About', link: '/introduction/about' },
         ],
       },
       {
         text: 'Reference',
-        items: [{ text: 'Reference', link: '/reference' }],
+        items: [
+          { text: 'validateSubmit', link: '/reference/validateSubmit' },
+          { text: 'ErrorMessage', link: '/reference/ErrorMessage' },
+          { text: 'isInvalid', link: '/reference/isInvalid' },
+          { text: 'isDirty', link: '/reference/isDirty' },
+          { text: 'isSubmitted', link: '/reference/isSubmitted' },
+          { text: 'revert', link: '/reference/revert' },
+          { text: 'reset', link: '/reference/reset' },
+          { text: 'diff', link: '/reference/diff' },
+          { text: 'error', link: '/reference/error' },
+          { text: 'errorNest', link: '/reference/errorNest' },
+        ],
       },
       {
-        text: 'Live Examples',
+        text: 'Examples',
         items: [
-          { text: 'Basic Usage', link: '/basic-usage' },
-          { text: 'Array Object Schema', link: '/array-object-schema' },
-          { text: 'Complicated Schema', link: '/complicated-schema' },
+          { text: 'Basic Usage', link: '/examples/basic-usage' },
+          { text: 'Array Object Schema', link: '/examples/array-object-schema' },
+          { text: 'Complicated Schema', link: '/examples/complicated-schema' },
         ],
       },
     ],

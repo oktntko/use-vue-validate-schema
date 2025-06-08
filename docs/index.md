@@ -12,10 +12,10 @@ hero:
   actions:
     - theme: brand
       text: Getting Started
-      link: /getting-started
+      link: /introduction/getting-started
     - theme: alt
-      text: Live Examples
-      link: /complicated-schema
+      text: Examples
+      link: /examples/basic-usage
 
 features:
   - icon: 💯

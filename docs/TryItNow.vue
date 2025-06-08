@@ -77,7 +77,7 @@ const handleSubmit = validateSubmit(
       <button type="submit" class="text-center outline-none" tabindex="-1">
         <a
           id="GettingStarted.vue-link"
-          href="/use-vue-validate-schema/getting-started/"
+          href="/use-vue-validate-schema/introduction/getting-started"
           type="submit"
           class="rounded-full px-5 py-2.5 text-center font-medium no-underline"
           :class="

@@ -18,6 +18,7 @@ const show = ref(false);
   <div class="relative">
     <input
       v-model="modelValue"
+      autocomplete="off"
       :type="show ? 'text' : 'password'"
       v-bind="
         (() => {
