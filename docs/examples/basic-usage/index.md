@@ -1,5 +1,9 @@
 ---
 outline: deep
+prev: false
+next:
+  text: 'Array Object Schema'
+  link: '/examples/array-object-schema'
 ---
 
 <script setup lang="ts">

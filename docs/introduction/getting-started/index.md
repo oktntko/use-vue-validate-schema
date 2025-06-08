@@ -1,5 +1,9 @@
 ---
 outline: deep
+prev: false
+next:
+  text: 'About'
+  link: '/introduction/about'
 ---
 
 <script setup lang="ts">

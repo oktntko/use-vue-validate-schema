@@ -1,5 +1,11 @@
 ---
 outline: deep
+prev:
+  text: 'Basic Usage'
+  link: '/examples/basic-usage'
+next:
+  text: 'Complicated Schema'
+  link: '/examples/complicated-schema'
 ---
 
 <script setup lang="ts">
