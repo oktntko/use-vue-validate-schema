@@ -16,11 +16,11 @@ function handleSubmit() {
     <section class="space-y-4">
       <div class="space-y-1">
         <div class="space-y-0.5">
-          <label for="username" class="block text-sm font-medium" :class="['truncate']">
+          <label for="SimpleForm-username" class="block text-sm font-medium" :class="['truncate']">
             username : {{ modelValue.username }}
           </label>
           <input
-            id="username"
+            id="SimpleForm-username"
             v-model="modelValue.username"
             type="text"
             class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
@@ -28,11 +28,11 @@ function handleSubmit() {
         </div>
 
         <div class="space-y-0.5">
-          <label for="email" class="block text-sm font-medium" :class="['truncate']">
+          <label for="SimpleForm-email" class="block text-sm font-medium" :class="['truncate']">
             email : {{ modelValue.email }}
           </label>
           <input
-            id="email"
+            id="SimpleForm-email"
             v-model="modelValue.email"
             type="text"
             class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"

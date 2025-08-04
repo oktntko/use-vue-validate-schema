@@ -14,6 +14,9 @@ import TabValibot from './TabValibot.vue'
 
 # Basic Usage
 
+このページでは、 [vue docs](https://vuejs.org/guide/essentials/forms.html) の Form Input Bindings を使ったフォームを使って、
+`use-vue-validate-schema`の使用方法を紹介します。
+
 :::tabs key:schema
 == zod(v3)
 <TabZod></TabZod>
@@ -23,9 +26,12 @@ import TabValibot from './TabValibot.vue'
 <TabValibot></TabValibot>
 :::
 
-- ポイント１．
-  - zodスキーマと対象のRefオブジェクトに対してバリデーションをします
-- ポイント２．
-  - `ErrorMessage` を使うとその場にメッセージが表示されるよ
-- ポイント３．
-  - 既存のフォームに手を加える必要がほとんどないよ
+::: details source
+:::tabs key:schema
+== zod(v3)
+<<< ./TabZod.vue
+== zod(v4)
+<<< ./TabZodV4.vue
+== valibot
+<<< ./TabValibot.vue
+:::

@@ -39,11 +39,11 @@ const handleSubmit = validateSubmit(
     <section class="space-y-4">
       <div class="space-y-1">
         <div class="space-y-0.5">
-          <label for="username" class="block text-sm font-medium" :class="['truncate']">
+          <label for="TabZod-username" class="block text-sm font-medium" :class="['truncate']">
             username : {{ modelValue.username }}
           </label>
           <input
-            id="username"
+            id="TabZod-username"
             v-model="modelValue.username"
             type="text"
             class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
@@ -53,11 +53,11 @@ const handleSubmit = validateSubmit(
         </div>
 
         <div class="space-y-0.5">
-          <label for="email" class="block text-sm font-medium" :class="['truncate']">
+          <label for="TabZod-email" class="block text-sm font-medium" :class="['truncate']">
             email : {{ modelValue.email }}
           </label>
           <input
-            id="email"
+            id="TabZod-email"
             v-model="modelValue.email"
             type="text"
             class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"

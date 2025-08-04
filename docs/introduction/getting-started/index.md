@@ -9,7 +9,6 @@ next:
 <script setup lang="ts">
 import SimpleForm from './SimpleForm.vue'
 import TabZod from './TabZod.vue'
-import TabValibot from './TabValibot.vue'
 </script>
 
 # Getting Started

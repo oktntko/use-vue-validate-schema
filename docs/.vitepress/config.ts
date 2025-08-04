@@ -26,8 +26,8 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Introduction', link: '/introduction/getting-started' },
-      { text: 'Reference', link: '/reference/validateSubmit' },
       { text: 'Examples', link: '/examples/basic-usage' },
+      { text: 'Reference', link: '/reference/validateSubmit' },
     ],
 
     sidebar: [
@@ -36,6 +36,14 @@ export default defineConfig({
         items: [
           { text: 'Getting Started', link: '/introduction/getting-started' },
           { text: 'About', link: '/introduction/about' },
+        ],
+      },
+      {
+        text: 'Examples',
+        items: [
+          { text: 'Basic Usage', link: '/examples/basic-usage' },
+          { text: 'Array Object Schema', link: '/examples/array-object-schema' },
+          { text: 'Complicated Schema', link: '/examples/complicated-schema' },
         ],
       },
       {
@@ -51,14 +59,6 @@ export default defineConfig({
           { text: 'diff', link: '/reference/diff' },
           { text: 'error', link: '/reference/error' },
           { text: 'errorNest', link: '/reference/errorNest' },
-        ],
-      },
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Basic Usage', link: '/examples/basic-usage' },
-          { text: 'Array Object Schema', link: '/examples/array-object-schema' },
-          { text: 'Complicated Schema', link: '/examples/complicated-schema' },
         ],
       },
     ],
