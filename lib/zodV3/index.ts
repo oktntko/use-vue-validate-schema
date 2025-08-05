@@ -22,7 +22,7 @@ import {
   ref,
   watch,
 } from 'vue';
-import type { z } from 'zod';
+import type { z } from 'zod/v3';
 import type { PartialRecord, StringPaths, ToResolvedProps } from '../@types/type.js';
 import { clone } from '../clone.js';
 

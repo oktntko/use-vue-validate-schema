@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zod';
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
 import { ref } from 'vue';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import InputPassword from '../components/InputPassword.vue';
 
 const securityQuestions = [

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zod';
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
 import { ref, useTemplateRef } from 'vue';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 const schema = z.object({
   use: z.string().pipe(z.literal('u')),

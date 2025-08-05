@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zod';
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
 import { ref } from 'vue';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 const multiple_checkbox_options = ['Jack', 'John', 'Mike'] as const;
 const radio_options = ['One', 'Two', 'Three'] as const;

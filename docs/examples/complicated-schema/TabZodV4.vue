@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useVueValidateZodV4 } from 'use-vue-validate-schema/zodV4';
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
 import { ref } from 'vue';
 import { z } from 'zod/v4';
 import InputPassword from '../components/InputPassword.vue';
@@ -71,7 +71,7 @@ const modelValue = ref<z.input<typeof schema>>({
   securityAnswers: ['', '', ''],
 });
 
-const { validateSubmit, ErrorMessage } = useVueValidateZodV4(schema, modelValue);
+const { validateSubmit, ErrorMessage } = useVueValidateZod(schema, modelValue);
 
 const handleSubmit = validateSubmit(() => {
   window.alert('success!');

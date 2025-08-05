@@ -99,7 +99,7 @@ First, define your schema.
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { z } from 'zod'; // [!code ++]
+import { z } from 'zod/v3'; // [!code ++]
 
 const schema = z.object({ // [!code ++]
   username: z.string().trim().min(1).max(10), // [!code ++]
@@ -120,7 +120,7 @@ function handleSubmit() {
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { z } from 'zod'; // [!code ++]
+import { z } from 'zod/v3'; // [!code ++]
 
 const schema = z.object({ // [!code ++]
   username: z.string().trim().min(1).max(10), // [!code ++]
@@ -168,9 +168,9 @@ Now it's time to `use-vue-validate-schema`. Here we introduce the basic `validat
 == zod(v3)
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zod'; // [!code ++]
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV3'; // [!code ++]
 import { ref } from 'vue';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 const schema = z.object({ 
   username: z.string().trim().min(1).max(10), 
@@ -192,9 +192,9 @@ function handleSubmit() {
 == zod(v4)
 ```vue
 <script setup lang="ts">
-import { useVueValidateZodV4 } from 'use-vue-validate-schema/zodV4'; // [!code ++]
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV4'; // [!code ++]
 import { ref } from 'vue';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 const schema = z.object({ 
   username: z.string().trim().min(1).max(10), 
@@ -206,7 +206,7 @@ const modelValue = ref<z.input<typeof schema>>({
   email: '',
 });
 
-const { validateSubmit, ErrorMessage } = useVueValidateZodV4(schema, modelValue); // [!code ++]
+const { validateSubmit, ErrorMessage } = useVueValidateZod(schema, modelValue); // [!code ++]
 
 function handleSubmit() {
   window.alert('success!\n' + JSON.stringify(modelValue.value, null, '  '));
@@ -253,9 +253,9 @@ You can provide feedback to the user when validation fails by passing the option
 == zod(v3)
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zod';
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
 import { ref } from 'vue';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 const schema = z.object({ 
   username: z.string().trim().min(1).max(10),
@@ -287,9 +287,9 @@ const handleSubmit = validateSubmit( // [!code ++]
 == zod(v4)
 ```vue
 <script setup lang="ts">
-import { useVueValidateZodV4 } from 'use-vue-validate-schema/zodV4';
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
 import { ref } from 'vue';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 const schema = z.object({ 
   username: z.string().trim().min(1).max(10),
@@ -301,7 +301,7 @@ const modelValue = ref<z.input<typeof schema>>({
   email: '',
 });
 
-const { validateSubmit, ErrorMessage } = useVueValidateZodV4(schema, modelValue);
+const { validateSubmit, ErrorMessage } = useVueValidateZod(schema, modelValue);
 
 function handleSubmit() { // [!code --]
   window.alert('success!\n' + JSON.stringify(modelValue.value, null, '  ')); // [!code --]
@@ -440,9 +440,9 @@ With just a few lines, we were able to integrate the Vue and validation schemas!
 == zod(v3)
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zod';
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
 import { ref } from 'vue';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 const schema = z.object({
   username: z.string().trim().min(1).max(10),
@@ -489,9 +489,9 @@ const handleSubmit = validateSubmit(
 == zod(v4)
 ```vue
 <script setup lang="ts">
-import { useVueValidateZodV4 } from 'use-vue-validate-schema/zodV4';
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
 import { ref } from 'vue';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 const schema = z.object({
   username: z.string().trim().min(1).max(10),
@@ -503,7 +503,7 @@ const modelValue = ref<z.input<typeof schema>>({
   email: '',
 });
 
-const { validateSubmit, ErrorMessage } = useVueValidateZodV4(schema, modelValue);
+const { validateSubmit, ErrorMessage } = useVueValidateZod(schema, modelValue);
 
 const handleSubmit = validateSubmit(
   (validValue) => {

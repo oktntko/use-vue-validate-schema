@@ -26,7 +26,7 @@ import type { z } from 'zod/v4';
 import type { PartialRecord, StringPaths, ToResolvedProps } from '../@types/type.js';
 import { clone } from '../clone.js';
 
-export function useVueValidateZodV4<T extends z.ZodRawShape>(
+export function useVueValidateZod<T extends z.ZodRawShape>(
   schema: z.ZodObject<T>,
   modelValue: Ref<z.input<typeof schema>>,
 ): {
