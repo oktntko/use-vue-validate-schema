@@ -140,7 +140,11 @@ export function useVueValidateZod<T extends z.ZodRawShape>(
 
   let validateResult: Awaited<ReturnType<typeof schema.safeParseAsync>> | undefined = undefined;
 
-  watch(modelValue.value, (newValue) => validate(newValue, { diffOnly: true }), { deep: true });
+  watch(
+    () => modelValue.value,
+    (newValue) => validate(newValue, { diffOnly: true }),
+    { deep: true },
+  );
 
   async function validate(value: z.input<typeof schema>, options?: { diffOnly: boolean }) {
     validateResult = await schema.safeParseAsync(value);
