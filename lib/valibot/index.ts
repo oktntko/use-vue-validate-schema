@@ -23,8 +23,8 @@ import {
   ref,
   watch,
 } from 'vue';
-import type { PartialRecord, StringPaths, ToResolvedProps } from '../@types/type.js';
 import { clone } from '../clone.js';
+import type { PartialRecord, StringPaths, ToResolvedProps } from '../type.js';
 
 export function useVueValidateValibot<
   TInput extends object,

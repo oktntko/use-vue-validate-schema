@@ -23,8 +23,8 @@ import {
   watch,
 } from 'vue';
 import type { z } from 'zod/v3';
-import type { PartialRecord, StringPaths, ToResolvedProps } from '../@types/type.js';
 import { clone } from '../clone.js';
+import type { PartialRecord, StringPaths, ToResolvedProps } from '../type.js';
 
 export function useVueValidateZod<T extends z.ZodRawShape>(
   schema: z.ZodEffects<z.ZodObject<T>> | z.ZodObject<T>,
