@@ -145,7 +145,7 @@ export function useVueValidateValibot<
   let validateResult: Awaited<ReturnType<typeof v.safeParseAsync<typeof schema>>> | undefined =
     undefined;
 
-  watch(modelValue.value, (newValue) => validate(newValue, { diffOnly: true }));
+  watch(modelValue.value, (newValue) => validate(newValue, { diffOnly: true }), { deep: true });
 
   async function validate(value: v.InferInput<typeof schema>, options?: { diffOnly: boolean }) {
     validateResult = await v.safeParseAsync(schema, value);
