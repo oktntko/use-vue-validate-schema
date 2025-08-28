@@ -14,8 +14,7 @@ import TabValibot from './TabValibot.vue'
 
 # Basic Usage
 
-このページでは、 [vue docs](https://vuejs.org/guide/essentials/forms.html) の Form Input Bindings を使ったフォームを使って、
-`use-vue-validate-schema`の使用方法を紹介します。
+This page demonstrates how to use `use-vue-validate-schema` with a form built using the Form Input Bindings from the [Vue documentation](https://vuejs.org/guide/essentials/forms.html).
 
 :::tabs key:schema
 == zod(v3)

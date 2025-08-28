@@ -1,45 +1,85 @@
-# useValidate-zod-vue
+# UseVueValidateSchema
 
-This template should help get you started developing with Vue 3 in Vite.
+> Use Vue As Is, Simple Form Validation.
 
-## Recommended IDE Setup
+Schema Based Validation ･ Little Changes ･ Developer experience
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+<p align="center">
+  <a href="https://www.npmjs.com/package/use-vue-validate-schema" target="_blank" rel="noopener noreferrer" style="margin-right: 1rem">
+    <img src="https://img.shields.io/npm/v/use-vue-validate-schema" alt="npm-version"/>
+  </a>
+</p>
 
-## Type Support for `.vue` Imports in TS
+<p align="center">
+  Ready for
+  <a href="https://zod.dev/" target="_blank" rel="noopener noreferrer" style="margin-right: 1rem">
+    <img src="https://zod.dev/logo.svg" alt="zod" width="100" height="100"/>
+  </a>
+  <a href="https://valibot.dev/" target="_blank" rel="noopener noreferrer">
+    <img src="https://valibot.dev/logo.svg" alt="valibot" width="100" height="100"/>
+  </a>
+</p>
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Features
 
-## Customize configuration
+- 💯 **Schema Based Validation**: Use powerful schema-based libraries for validation (e.g. Zod, Valibot) so you don't need to learn this library validation rules.
+- 🤏 **Little Changes**: Use Vue as is, so need little changes. Making integration with custom components is easy.
+- 🛠️ **Developer Experience**: It enhances your TypeScript development experience by being type-safe and type-hinting enabled.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Installation
 
 ```sh
-pnpm install
+# pnpm
+pnpm i use-vue-validate-schema zod
+# or
+pnpm i use-vue-validate-schema valibot
+
+# npm
+npm i use-vue-validate-schema zod
+# or
+npm i use-vue-validate-schema valibot
+
+# yarn
+yarn add use-vue-validate-schema zod
+# or
+yarn add use-vue-validate-schema valibot
 ```
 
-### Compile and Hot-Reload for Development
+## Usage
 
-```sh
-pnpm dev
-```
+```vue
+<script setup lang="ts">
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
+import { ref } from 'vue';
+import { z } from 'zod/v4';
 
-### Type-Check, Compile and Minify for Production
+const schema = z.object({
+  username: z.string().trim().min(1),
+  email: z.string().email(),
+});
 
-```sh
-pnpm build
-```
+const modelValue = ref({
+  username: '',
+  email: '',
+});
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+const { validateSubmit, ErrorMessage } = useVueValidateZod(schema, modelValue);
 
-```sh
-pnpm test:unit
-```
+const handleSubmit = validateSubmit((validValue) => {
+  // Executed only when validation passes
+  console.log(validValue);
+});
+</script>
 
-### Lint with [ESLint](https://eslint.org/)
+<template>
+  <form @submit.prevent="handleSubmit">
+    <input v-model="modelValue.username" />
+    <ErrorMessage field="username" />
 
-```sh
-pnpm lint
+    <input v-model="modelValue.email" />
+    <ErrorMessage field="email" />
+
+    <button type="submit">Submit</button>
+  </form>
+</template>
 ```

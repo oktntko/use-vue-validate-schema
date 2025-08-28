@@ -18,36 +18,7 @@ Get started with `use-vue-validate-schema` using a simple form!
 <SimpleForm></SimpleForm>
 
 ::: details source
-```vue
-<script setup lang="ts">
-import { ref } from 'vue';
-
-const modelValue = ref({
-  username: '',
-  email: '',
-});
-
-function handleSubmit() {
-  window.alert('success!\n' + JSON.stringify(modelValue.value, null, '  '));
-}
-</script>
-
-<template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <label for="username"> username : {{ modelValue.username }} </label>
-      <input id="username" v-model="modelValue.username" type="text" />
-    </div>
-
-    <div>
-      <label for="email"> email : {{ modelValue.email }} </label>
-      <input id="email" v-model="modelValue.email" type="email" />
-    </div>
-
-    <button type="submit">submit</button>
-  </form>
-</template>
-```
+<<< ./SimpleForm.vue
 :::
 
 
@@ -120,7 +91,7 @@ function handleSubmit() {
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { z } from 'zod/v3'; // [!code ++]
+import { z } from 'zod/v4'; // [!code ++]
 
 const schema = z.object({ // [!code ++]
   username: z.string().trim().min(1).max(10), // [!code ++]
@@ -194,7 +165,7 @@ function handleSubmit() {
 <script setup lang="ts">
 import { useVueValidateZod } from 'use-vue-validate-schema/zodV4'; // [!code ++]
 import { ref } from 'vue';
-import { z } from 'zod/v3';
+import { z } from 'zod/v4';
 
 const schema = z.object({ 
   username: z.string().trim().min(1).max(10), 
@@ -289,7 +260,7 @@ const handleSubmit = validateSubmit( // [!code ++]
 <script setup lang="ts">
 import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
+import { z } from 'zod/v4';
 
 const schema = z.object({ 
   username: z.string().trim().min(1).max(10),
@@ -491,7 +462,7 @@ const handleSubmit = validateSubmit(
 <script setup lang="ts">
 import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
+import { z } from 'zod/v4';
 
 const schema = z.object({
   username: z.string().trim().min(1).max(10),

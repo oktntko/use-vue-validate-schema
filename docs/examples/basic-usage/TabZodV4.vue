@@ -17,7 +17,7 @@ const schema = z.object({
   single_select: z
     .string()
     .refine((val) => val !== '', {
-      message: 'Please select one',
+      error: 'Please select one',
     })
     .pipe(z.enum(single_select_options)),
   multiple_select: z.enum(multiple_select_options).array().min(1),

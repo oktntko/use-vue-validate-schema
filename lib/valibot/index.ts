@@ -290,7 +290,7 @@ export function useVueValidateValibot<
           return h(
             tag,
             attrs,
-            slots.default({ messages: messages.value, message: messages.value[0] }),
+            slots.default({ messages: messages.value, message: messages.value[0]! }),
           );
         }
 

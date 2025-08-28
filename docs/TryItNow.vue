@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
 import { ref, useTemplateRef } from 'vue';
-import { z } from 'zod/v3';
+import { z } from 'zod/v4';
 
 const schema = z.object({
   use: z.string().pipe(z.literal('u')),
@@ -50,9 +50,8 @@ function handleKeyDown(e: KeyboardEvent) {
   }
 
   const cur = inputList[index];
-  if (!cur.value) {
-    const pre = inputList[index - 1];
-    pre.focus();
+  if (!cur?.value) {
+    inputList[index - 1]?.focus();
   }
 }
 
@@ -64,12 +63,12 @@ function handleInput(e: Event) {
   }
 
   const cur = inputList[index];
-  if (!cur.value) {
+  if (!cur?.value) {
     return;
   }
 
   if (index < inputList.length - 1) {
-    inputList[index + 1].focus();
+    inputList[index + 1]?.focus();
   } else {
     refButton.value?.focus();
   }
