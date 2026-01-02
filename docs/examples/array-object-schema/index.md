@@ -16,6 +16,8 @@ import TabValibot from './TabValibot.vue'
 
 # Array Object Schema
 
+This example demonstrates how to validate complex nested object schemas with arrays. It shows a real-world use case of an invoice form with multiple line items, each with their own validation rules.
+
 :::tabs key:schema
 == zod(v3)
 <TabZod></TabZod>
@@ -23,4 +25,15 @@ import TabValibot from './TabValibot.vue'
 <TabZodV4></TabZodV4>
 == valibot
 <TabValibot></TabValibot>
+:::
+
+::: details source
+:::tabs key:schema
+== zod(v3)
+<<< ./TabZod.vue
+== zod(v4)
+<<< ./TabZodV4.vue
+== valibot
+<<< ./TabValibot.vue
+:::
 :::
