@@ -46,7 +46,7 @@ function handleSubmit() {
         type="submit"
         :class="[
           'me-2 mb-2 cursor-pointer rounded-lg px-5 py-2.5 text-sm font-medium capitalize transition-colors',
-          'border-[var(--vp-button-brand-border)] bg-[var(--vp-button-brand-bg)] text-[var(--vp-button-brand-text)] hover:bg-[var(--vp-button-brand-hover-bg)]',
+          'border-(--vp-button-brand-border) bg-(--vp-button-brand-bg) text-(--vp-button-brand-text) hover:bg-(--vp-button-brand-hover-bg)',
         ]"
       >
         submit

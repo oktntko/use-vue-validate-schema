@@ -1,6 +1,6 @@
 @import 'tailwindcss' important;
 @custom-variant dark (&:where(.dark, .dark *));
-@plugin "@iconify/tailwind4";
+@plugin '@iconify/tailwind4';
 
 body {
   overflow-y: scroll;

@@ -16,7 +16,7 @@ const securityQuestions = [
 const schema = z
   .object({
     username: z.string().trim().min(1).max(10),
-    email: z.string().email().endsWith('@example.com'),
+    email: z.email().endsWith('@example.com'),
     password: z
       .string()
       .min(8)

@@ -3,7 +3,7 @@
   "include": ["lib/**/*", "test/**/*", "env.d.ts"],
   "exclude": [],
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.vitest.tsbuildinfo",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.test.tsbuildinfo",
 
     "lib": [],
     "types": ["node", "jsdom", "vitest/globals"],

@@ -110,7 +110,7 @@ function newItem() {
           </label>
           <input
             :id="`details.${i}.item`"
-            v-model="modelValue.details[i].item"
+            v-model="modelValue.details[i]!.item"
             type="text"
             class="block w-full rounded-lg border border-gray-400 p-2.5 text-sm"
           />
@@ -134,7 +134,7 @@ function newItem() {
             </label>
             <InputCommaNumber
               :id="`details.${i}.cost`"
-              v-model.number="modelValue.details[i].cost"
+              v-model.number="modelValue.details[i]!.cost"
               type="number"
               class="block w-full rounded-lg border border-gray-400 p-2.5 text-right font-mono text-sm"
             />
@@ -149,7 +149,7 @@ function newItem() {
             </label>
             <InputCommaNumber
               :id="`details.${i}.quantity`"
-              v-model.number="modelValue.details[i].quantity"
+              v-model.number="modelValue.details[i]!.quantity"
               type="number"
               class="block w-full rounded-lg border border-gray-400 p-2.5 text-right font-mono text-sm"
             />
@@ -164,7 +164,7 @@ function newItem() {
             </label>
             <InputCommaNumber
               :id="`details.${i}.price`"
-              v-model.number="modelValue.details[i].price"
+              v-model.number="modelValue.details[i]!.price"
               type="number"
               class="block w-full rounded-lg border border-gray-400 p-2.5 text-right font-mono text-sm"
             />
