@@ -42,6 +42,10 @@ export function useVueValidateValibot<
       ) => void;
     },
   ) => () => Promise<void>;
+  validate: (
+    value?: v.InferInput<typeof schema>,
+    options?: { diffOnly: boolean },
+  ) => Promise<v.SafeParseResult<typeof schema>>;
   ErrorMessage: DefineComponent<
     ExtractPropTypes<{
       field: {
@@ -151,7 +155,10 @@ export function useVueValidateValibot<
     { deep: true },
   );
 
-  async function validate(value: v.InferInput<typeof schema>, options?: { diffOnly: boolean }) {
+  async function validate(
+    value: v.InferInput<typeof schema> = modelValue.value,
+    options?: { diffOnly: boolean },
+  ) {
     validateResult = await v.safeParseAsync(schema, value);
 
     if (validateResult.success) {
@@ -238,8 +245,8 @@ export function useVueValidateValibot<
     isSubmitted.value = false;
   }
 
-  async function handleInvalidSubmit() {
-    // TODO
+  async function handleInvalidSubmit(error: PartialRecord<Field, string[]>) {
+    console.debug('[use-vue-validate-schema:validation error]', error);
   }
 
   const ErrorMessage = defineComponent({
@@ -308,6 +315,7 @@ export function useVueValidateValibot<
   return {
     //# basic usage
     validateSubmit,
+    validate,
     ErrorMessage,
     //# form status
     isInvalid,

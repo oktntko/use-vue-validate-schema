@@ -4,7 +4,7 @@
     "vitest.explorer",
     "dbaeumer.vscode-eslint",
     "EditorConfig.EditorConfig",
-    "prettier.prettier-vscode",
+    "esbenp.prettier-vscode",
     "antfu.iconify",
     "streetsidesoftware.code-spell-checker"
   ]
