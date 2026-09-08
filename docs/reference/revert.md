@@ -11,13 +11,7 @@ outline: deep
 ## Signature
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const { revert } = useVueValidateZod(schema, modelValue);
-
-function revert(): void
-```
-== zod(v4)
+== zod
 ```ts
 const { revert } = useVueValidateZod(schema, modelValue);
 
@@ -51,68 +45,12 @@ When `revert()` is called:
 ## Example
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({
-  title: z.string().min(1),
-  content: z.string().min(1),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  title: 'Original Title',
-  content: 'Original Content',
-});
-
-const { revert, isDirty, validateSubmit } = useVueValidateZod(schema, modelValue);
-
-const handleSubmit = validateSubmit((validValue) => {
-  // Successfully saved, could call revert here or reset
-  console.log('Saved:', validValue);
-});
-
-const handleCancel = () => {
-  if (isDirty.value) {
-    const confirmed = window.confirm('Discard unsaved changes?');
-    if (confirmed) {
-      revert();
-    }
-  }
-};
-</script>
-
-<template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <input v-model="modelValue.title" />
-    </div>
-    <div>
-      <textarea v-model="modelValue.content"></textarea>
-    </div>
-
-    <div class="actions">
-      <button type="submit">Save</button>
-      <button v-if="isDirty" type="button" @click="handleCancel">
-        Cancel
-      </button>
-    </div>
-
-    <div v-if="isDirty" class="warning">
-      You have unsaved changes
-    </div>
-  </form>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   title: z.string().min(1),

@@ -11,13 +11,7 @@ outline: deep
 ## Signature
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const { errorNest } = useVueValidateZod(schema, modelValue);
-
-const nestedErrors: ComputedRef<PartialRecord<string, string[]>> = errorNest;
-```
-== zod(v4)
+== zod
 ```ts
 const { errorNest } = useVueValidateZod(schema, modelValue);
 
@@ -62,67 +56,12 @@ errorNest.value = {
 ## Example
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const ItemSchema = z.object({
-  name: z.string().min(1),
-  price: z.number().positive(),
-});
-
-const schema = z.object({
-  title: z.string(),
-  items: ItemSchema.array().min(1),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  title: 'Invoice',
-  items: [
-    { name: '', price: 0 },
-    { name: '', price: -10 },
-  ],
-});
-
-const { ErrorMessage, error, errorNest } = useVueValidateZod(schema, modelValue);
-</script>
-
-<template>
-  <form>
-    <div>
-      <input v-model="modelValue.title" />
-    </div>
-
-    <!-- Show errors for the entire items array -->
-    <div v-if="errorNest['items']">
-      <p class="error">Issues with items:</p>
-      <ul>
-        <li v-for="msg in errorNest['items']" :key="msg">{{ msg }}</li>
-      </ul>
-    </div>
-
-    <!-- Iterate through items -->
-    <div v-for="(item, index) in modelValue.items" :key="index" class="item">
-      <input v-model="modelValue.items[index].name" />
-      <ErrorMessage :field="`items.${index}.name`" multiple />
-
-      <input v-model.number="modelValue.items[index].price" type="number" />
-      <ErrorMessage :field="`items.${index}.price`" multiple />
-    </div>
-
-    <button type="submit">Submit</button>
-  </form>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const ItemSchema = z.object({
   name: z.string().min(1),

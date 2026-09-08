@@ -11,13 +11,7 @@ outline: deep
 ## Signature
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const { diff } = useVueValidateZod(schema, modelValue);
-
-const changedFields: ComputedRef<string[]> = diff;
-```
-== zod(v4)
+== zod
 ```ts
 const { diff } = useVueValidateZod(schema, modelValue);
 
@@ -44,76 +38,12 @@ Returns an empty array `[]` when no fields have changed.
 ## Example
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({
-  name: z.string(),
-  email: z.string(),
-  profile: z.object({
-    bio: z.string(),
-    avatar: z.string(),
-  }),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  name: 'John Doe',
-  email: 'john@example.com',
-  profile: {
-    bio: 'Developer',
-    avatar: 'avatar.jpg',
-  },
-});
-
-const { diff } = useVueValidateZod(schema, modelValue);
-</script>
-
-<template>
-  <form>
-    <div>
-      <input v-model="modelValue.name" />
-    </div>
-    <div>
-      <input v-model="modelValue.email" type="email" />
-    </div>
-    <div>
-      <input v-model="modelValue.profile.bio" />
-    </div>
-    <div>
-      <input v-model="modelValue.profile.avatar" />
-    </div>
-
-    <!-- Show which fields have been modified -->
-    <div v-if="diff.length > 0" class="changes">
-      <p>Changed fields:</p>
-      <ul>
-        <li v-for="field in diff" :key="field">
-          {{ field }}
-        </li>
-      </ul>
-    </div>
-
-    <!-- Show only specific changed fields -->
-    <div v-if="diff.includes('profile.bio')">
-      Bio has been updated
-    </div>
-
-    <button type="submit" :disabled="diff.length === 0">
-      Save Changes
-    </button>
-  </form>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   name: z.string(),

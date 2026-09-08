@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4'; // [!code ++]
+import { useVueValidateZod } from 'use-vue-validate-schema'; // [!code ++]
 import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   username: z.string().trim().min(1).max(10),

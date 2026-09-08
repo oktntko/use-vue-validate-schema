@@ -11,11 +11,7 @@ outline: deep
 ## Signature
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const { ErrorMessage } = useVueValidateZod(schema, modelValue);
-```
-== zod(v4)
+== zod
 ```ts
 const { ErrorMessage } = useVueValidateZod(schema, modelValue);
 ```
@@ -69,37 +65,12 @@ This prevents showing errors to users for untouched fields while still validatin
 ### Basic Usage
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({
-  username: z.string().min(1).max(10),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  username: '',
-});
-
-const { ErrorMessage } = useVueValidateZod(schema, modelValue);
-</script>
-
-<template>
-  <div>
-    <input v-model="modelValue.username" />
-    <ErrorMessage field="username" />
-  </div>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   username: z.string().min(1).max(10),
@@ -149,17 +120,7 @@ const { ErrorMessage } = useVueValidateValibot(schema, modelValue);
 ### Multiple Errors
 
 :::tabs key:schema
-== zod(v3)
-```vue
-<template>
-  <div>
-    <input v-model="modelValue.username" />
-    <!-- Display all error messages -->
-    <ErrorMessage field="username" multiple />
-  </div>
-</template>
-```
-== zod(v4)
+== zod
 ```vue
 <template>
   <div>
@@ -184,20 +145,7 @@ const { ErrorMessage } = useVueValidateValibot(schema, modelValue);
 ### Custom Styling
 
 :::tabs key:schema
-== zod(v3)
-```vue
-<template>
-  <div>
-    <input v-model="modelValue.username" />
-    <ErrorMessage 
-      field="username" 
-      class="text-red-500 text-sm mt-1"
-      tag="p"
-    />
-  </div>
-</template>
-```
-== zod(v4)
+== zod
 ```vue
 <template>
   <div>
@@ -228,22 +176,7 @@ const { ErrorMessage } = useVueValidateValibot(schema, modelValue);
 ### Custom Rendering with Slot
 
 :::tabs key:schema
-== zod(v3)
-```vue
-<template>
-  <div>
-    <input v-model="modelValue.username" />
-    <ErrorMessage field="username">
-      <template #default="{ messages }">
-        <ul class="text-red-500 text-sm">
-          <li v-for="msg in messages" :key="msg">{{ msg }}</li>
-        </ul>
-      </template>
-    </ErrorMessage>
-  </div>
-</template>
-```
-== zod(v4)
+== zod
 ```vue
 <template>
   <div>
@@ -278,16 +211,7 @@ const { ErrorMessage } = useVueValidateValibot(schema, modelValue);
 ### Nested Field Errors
 
 :::tabs key:schema
-== zod(v3)
-```vue
-<template>
-  <div>
-    <!-- Shows errors from details field and all nested sub-fields -->
-    <ErrorMessage field="details" nest multiple />
-  </div>
-</template>
-```
-== zod(v4)
+== zod
 ```vue
 <template>
   <div>

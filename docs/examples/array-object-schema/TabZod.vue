@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
+import { z } from 'zod';
 import InputCommaNumber from '../components/InputCommaNumber.vue';
 
 const ItemSchema = z.object({

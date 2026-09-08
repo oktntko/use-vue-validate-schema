@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
+import { z } from 'zod';
 import InputPassword from '../components/InputPassword.vue';
 
 const securityQuestions = [
@@ -16,7 +16,7 @@ const securityQuestions = [
 const schema = z
   .object({
     username: z.string().trim().min(1).max(10),
-    email: z.string().email().endsWith('@example.com'),
+    email: z.email().endsWith('@example.com'),
     password: z
       .string()
       .min(8)
