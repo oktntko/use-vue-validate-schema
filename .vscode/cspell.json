@@ -1,4 +1,13 @@
 {
-  "words": ["iconify", "microdiff", "picklist", "valibot"],
-  "ignoreRegExpList": ["icon-\\[[^\\]]+\\]"]
+  "words": [
+    "iconify",
+    "microdiff",
+    "picklist",
+    "uvvs",
+    "valibot",
+    "vitepres"
+  ],
+  "ignoreRegExpList": [
+    "icon-\\[[^\\]]+\\]"
+  ]
 }

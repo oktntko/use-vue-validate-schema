@@ -110,7 +110,7 @@ function handleInput(e: Event) {
           isInvalid
             ? ['bg-red-700 text-white hover:bg-red-800 dark:bg-red-600 dark:hover:bg-red-700']
             : [
-                'border-[var(--vp-button-brand-border)] bg-[var(--vp-button-brand-bg)] text-[var(--vp-button-brand-text)] hover:bg-[var(--vp-button-brand-hover-bg)]',
+                'border-(--vp-button-brand-border) bg-(--vp-button-brand-bg) text-(--vp-button-brand-text) hover:bg-(--vp-button-brand-hover-bg)',
               ]
         "
       >
