@@ -11,13 +11,7 @@ outline: deep
 ## Signature
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const { reset } = useVueValidateZod(schema, modelValue);
-
-function reset(value: z.input<typeof schema>): void
-```
-== zod(v4)
+== zod
 ```ts
 const { reset } = useVueValidateZod(schema, modelValue);
 
@@ -55,83 +49,12 @@ When `reset(newValue)` is called:
 ## Example
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
-import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({
-  id: z.number(),
-  name: z.string().min(1),
-  email: z.string().email(),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  id: 0,
-  name: '',
-  email: '',
-});
-
-const { reset, isDirty, validateSubmit } = useVueValidateZod(schema, modelValue);
-
-const handleSubmit = validateSubmit(async (validValue) => {
-  // Save to server
-  const response = await fetch('/api/user', {
-    method: 'PUT',
-    body: JSON.stringify(validValue),
-  });
-  
-  if (response.ok) {
-    const savedData = await response.json();
-    // Update initial state to the saved data
-    reset(savedData);
-  }
-});
-
-const loadUser = async (userId: number) => {
-  const response = await fetch(`/api/user/${userId}`);
-  const userData = await response.json();
-  // Load user data and reset form
-  reset(userData);
-};
-
-onMounted(() => {
-  loadUser(1);
-});
-</script>
-
-<template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <label for="name">Name</label>
-      <input id="name" v-model="modelValue.name" />
-    </div>
-
-    <div>
-      <label for="email">Email</label>
-      <input id="email" v-model="modelValue.email" />
-    </div>
-
-    <div class="actions">
-      <button type="submit" :disabled="!isDirty">
-        Save
-      </button>
-    </div>
-
-    <div v-if="isDirty" class="warning">
-      You have unsaved changes
-    </div>
-  </form>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { onMounted, ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   id: z.number(),

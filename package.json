@@ -33,19 +33,9 @@
       "require": "./dist/valibot/index.cjs.js"
     },
     "./zod": {
-      "types": "./dist/zodV4/index.d.ts",
-      "import": "./dist/zodV4/index.es.js",
-      "require": "./dist/zodV4/index.cjs.js"
-    },
-    "./zodV3": {
-      "types": "./dist/zodV3/index.d.ts",
-      "import": "./dist/zodV3/index.es.js",
-      "require": "./dist/zodV3/index.cjs.js"
-    },
-    "./zodV4": {
-      "types": "./dist/zodV4/index.d.ts",
-      "import": "./dist/zodV4/index.es.js",
-      "require": "./dist/zodV4/index.cjs.js"
+      "types": "./dist/zod/index.d.ts",
+      "import": "./dist/zod/index.es.js",
+      "require": "./dist/zod/index.cjs.js"
     }
   },
   "scripts": {
@@ -62,48 +52,48 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
-    "microdiff": "^1.5.0"
+    "microdiff": "^1.6.0"
   },
   "devDependencies": {
-    "@cspell/eslint-plugin": "^9.4.0",
-    "@iconify/json": "^2.2.424",
-    "@iconify/tailwind4": "^1.2.0",
-    "@tailwindcss/vite": "^4.1.18",
-    "@tsconfig/node24": "^24.0.3",
+    "@cspell/eslint-plugin": "^10.3.0",
+    "@iconify/json": "^2.2.526",
+    "@iconify/tailwind4": "^1.2.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "@tsconfig/node24": "^24.0.5",
     "@tsconfig/strictest": "^2.0.8",
-    "@types/jsdom": "^27.0.0",
-    "@types/node": "^24.10.4",
-    "@vitejs/plugin-vue": "^6.0.3",
-    "@vitest/eslint-plugin": "^1.6.4",
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^26.5.0",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vitest/eslint-plugin": "^1.6.27",
     "@vue/eslint-config-prettier": "^10.2.0",
-    "@vue/eslint-config-typescript": "^14.6.0",
-    "@vue/test-utils": "^2.4.6",
-    "@vue/tsconfig": "^0.8.1",
-    "cspell": "^9.4.0",
-    "eslint": "^9.39.2",
-    "eslint-plugin-vue": "~10.6.2",
-    "jiti": "^2.6.1",
-    "jsdom": "^27.4.0",
-    "npm-run-all2": "^8.0.4",
-    "prettier": "3.7.4",
+    "@vue/eslint-config-typescript": "^14.9.0",
+    "@vue/test-utils": "^2.5.0",
+    "@vue/tsconfig": "^0.9.1",
+    "cspell": "^10.3.0",
+    "eslint": "^10.10.0",
+    "eslint-plugin-vue": "~10.11.0",
+    "jiti": "^2.7.0",
+    "jsdom": "^30.0.1",
+    "npm-run-all2": "^9.0.3",
+    "prettier": "3.9.6",
     "prettier-plugin-organize-imports": "^4.3.0",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "tailwindcss": "^4.1.18",
-    "typescript": "~5.9.3",
-    "valibot": "^1.2.0",
-    "vite": "^7.3.0",
-    "vite-plugin-vue-devtools": "^8.0.5",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "6.0.3",
+    "valibot": "^1.4.2",
+    "vite": "^8.2.2",
+    "vite-plugin-vue-devtools": "^8.2.1",
     "vitepress": "^1.6.4",
-    "vitepress-plugin-tabs": "^0.7.3",
-    "vitest": "^4.0.16",
-    "vue": "^3.5.26",
-    "vue-tsc": "^3.2.1",
-    "zod": "^4.3.4"
+    "vitepress-plugin-tabs": "^0.9.1",
+    "vitest": "^5.0.0",
+    "vue": "^3.5.42",
+    "vue-tsc": "^3.3.11",
+    "zod": "^4.5.4"
   },
   "peerDependencies": {
-    "valibot": "^1.1.0",
-    "vue": "^3.5.18",
-    "zod": "^3.25.76 || ^4.0.0"
+    "valibot": "^1.4.2",
+    "vue": "^3.5.42",
+    "zod": "^4.5.4"
   },
   "peerDependenciesMeta": {
     "valibot": {
@@ -125,7 +115,8 @@
       "vite@>=5.2.6 <=5.4.20": ">=5.4.21",
       "js-yaml@>=4.0.0 <4.1.1": ">=4.1.1",
       "glob@>=10.2.0 <10.5.0": ">=10.5.0",
-      "mdast-util-to-hast@>=13.0.0 <13.2.1": ">=13.2.1"
+      "mdast-util-to-hast@>=13.0.0 <13.2.1": ">=13.2.1",
+      "vite@^6.0.0 || ^7.0.0-0": ">=8.2.2"
     }
   }
 }

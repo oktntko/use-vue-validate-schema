@@ -11,13 +11,7 @@ outline: deep
 ## Signature
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const { isInvalid } = useVueValidateZod(schema, modelValue);
-
-const isFormInvalid: ComputedRef<boolean> = isInvalid;
-```
-== zod(v4)
+== zod
 ```ts
 const { isInvalid } = useVueValidateZod(schema, modelValue);
 
@@ -43,51 +37,12 @@ const isFormInvalid: ComputedRef<boolean> = isInvalid;
 ## Example
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  email: '',
-  password: '',
-});
-
-const { isInvalid, validateSubmit } = useVueValidateZod(schema, modelValue);
-
-const handleSubmit = validateSubmit((validValue) => {
-  console.log('Form submitted:', validValue);
-});
-</script>
-
-<template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <input v-model="modelValue.email" type="email" placeholder="Email" />
-    </div>
-    <div>
-      <input v-model="modelValue.password" type="password" placeholder="Password" />
-    </div>
-    <!-- Disable submit button when form is invalid -->
-    <button type="submit" :disabled="isInvalid">
-      Submit
-    </button>
-  </form>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   email: z.string().email(),

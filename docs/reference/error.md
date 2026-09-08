@@ -11,13 +11,7 @@ outline: deep
 ## Signature
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const { error } = useVueValidateZod(schema, modelValue);
-
-const errors: DeepReadonly<Ref<PartialRecord<string, string[]>>> = error;
-```
-== zod(v4)
+== zod
 ```ts
 const { error } = useVueValidateZod(schema, modelValue);
 
@@ -53,62 +47,12 @@ An object where:
 ## Example
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(8, 'Must be at least 8 characters'),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  email: 'invalid-email',
-  password: 'short',
-});
-
-const { error, validateSubmit } = useVueValidateZod(schema, modelValue);
-
-const handleSubmit = validateSubmit(
-  (validValue) => {
-    console.log('Success:', validValue);
-  },
-  {
-    handleValidateError() {
-      // Log all errors for debugging
-      console.log('All errors:', error.value);
-    },
-  },
-);
-</script>
-
-<template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <input v-model="modelValue.email" type="email" />
-    </div>
-    <div>
-      <input v-model="modelValue.password" type="password" />
-    </div>
-
-    <!-- Display raw error object for debugging -->
-    <pre v-if="Object.keys(error).length > 0">
-{{ error }}
-    </pre>
-
-    <button type="submit">Submit</button>
-  </form>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   email: z.string().email('Invalid email format'),
@@ -210,15 +154,7 @@ const handleSubmit = validateSubmit(
 ### Access specific field errors
 
 :::tabs key:schema
-== zod(v3)
-```ts
-// Get all error messages for a field
-const emailErrors = error.value['email']; // string[]
-
-// Check if a field has errors
-const hasEmailError = 'email' in error.value;
-```
-== zod(v4)
+== zod
 ```ts
 // Get all error messages for a field
 const emailErrors = error.value['email']; // string[]
@@ -239,11 +175,7 @@ const hasEmailError = 'email' in error.value;
 ### Get first error message
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const firstError = error.value['email']?.[0] ?? null;
-```
-== zod(v4)
+== zod
 ```ts
 const firstError = error.value['email']?.[0] ?? null;
 ```
@@ -256,13 +188,7 @@ const firstError = error.value['email']?.[0] ?? null;
 ### Log all errors
 
 :::tabs key:schema
-== zod(v3)
-```ts
-Object.entries(error.value).forEach(([field, messages]) => {
-  console.log(`${field}: ${messages.join(', ')}`);
-});
-```
-== zod(v4)
+== zod
 ```ts
 Object.entries(error.value).forEach(([field, messages]) => {
   console.log(`${field}: ${messages.join(', ')}`);

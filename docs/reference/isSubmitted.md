@@ -11,13 +11,7 @@ outline: deep
 ## Signature
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const { isSubmitted } = useVueValidateZod(schema, modelValue);
-
-const submitted: Readonly<Ref<boolean>> = isSubmitted;
-```
-== zod(v4)
+== zod
 ```ts
 const { isSubmitted } = useVueValidateZod(schema, modelValue);
 
@@ -51,58 +45,12 @@ const submitted: Readonly<Ref<boolean>> = isSubmitted;
 ## Example
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({
-  username: z.string().min(1),
-  email: z.string().email(),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  username: '',
-  email: '',
-});
-
-const { isSubmitted, validateSubmit, ErrorMessage } = useVueValidateZod(schema, modelValue);
-
-const handleSubmit = validateSubmit((validValue) => {
-  console.log('Form submitted successfully:', validValue);
-});
-</script>
-
-<template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <label for="username">Username</label>
-      <input id="username" v-model="modelValue.username" />
-      <!-- Show error only after first submit attempt -->
-      <ErrorMessage v-if="isSubmitted" field="username" />
-    </div>
-
-    <div>
-      <label for="email">Email</label>
-      <input id="email" v-model="modelValue.email" type="email" />
-      <!-- Show error only after first submit attempt -->
-      <ErrorMessage v-if="isSubmitted" field="email" />
-    </div>
-
-    <button type="submit">
-      {{ isSubmitted ? 'Please fix errors' : 'Submit' }}
-    </button>
-  </form>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   username: z.string().min(1),

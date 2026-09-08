@@ -49,6 +49,7 @@ export default defineConfig({
       {
         text: 'Reference',
         items: [
+          { text: 'validate', link: '/reference/validate' },
           { text: 'validateSubmit', link: '/reference/validateSubmit' },
           { text: 'ErrorMessage', link: '/reference/ErrorMessage' },
           { text: 'isInvalid', link: '/reference/isInvalid' },

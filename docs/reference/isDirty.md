@@ -11,13 +11,7 @@ outline: deep
 ## Signature
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const { isDirty } = useVueValidateZod(schema, modelValue);
-
-const isFormModified: ComputedRef<boolean> = isDirty;
-```
-== zod(v4)
+== zod
 ```ts
 const { isDirty } = useVueValidateZod(schema, modelValue);
 
@@ -43,57 +37,12 @@ const isFormModified: ComputedRef<boolean> = isDirty;
 ## Example
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({
-  title: z.string(),
-  description: z.string(),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  title: 'My Post',
-  description: 'A great post',
-});
-
-const { isDirty, revert, reset } = useVueValidateZod(schema, modelValue);
-</script>
-
-<template>
-  <form>
-    <div>
-      <input v-model="modelValue.title" />
-    </div>
-    <div>
-      <textarea v-model="modelValue.description"></textarea>
-    </div>
-    
-    <!-- Show unsaved changes indicator -->
-    <div v-if="isDirty" class="bg-yellow-100 p-2">
-      You have unsaved changes
-    </div>
-
-    <!-- Only show revert button when there are changes -->
-    <button v-if="isDirty" type="button" @click="revert">
-      Discard Changes
-    </button>
-    
-    <button v-if="isDirty" type="submit">
-      Save Changes
-    </button>
-  </form>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   title: z.string(),

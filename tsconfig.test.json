@@ -8,9 +8,8 @@
     "lib": [],
     "types": ["node", "jsdom", "vitest/globals"],
     "rootDir": ".",
-    "baseUrl": ".",
     "paths": {
-      "~/*": ["lib/*"]
+      "~/*": ["./lib/*"]
     }
   }
 }

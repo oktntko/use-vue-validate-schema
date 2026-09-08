@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref, useTemplateRef } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   use: z.string().pipe(z.literal('u')),
@@ -110,7 +110,7 @@ function handleInput(e: Event) {
           isInvalid
             ? ['bg-red-700 text-white hover:bg-red-800 dark:bg-red-600 dark:hover:bg-red-700']
             : [
-                'border-[var(--vp-button-brand-border)] bg-[var(--vp-button-brand-bg)] text-[var(--vp-button-brand-text)] hover:bg-[var(--vp-button-brand-hover-bg)]',
+                'border-(--vp-button-brand-border) bg-(--vp-button-brand-bg) text-(--vp-button-brand-text) hover:bg-(--vp-button-brand-hover-bg)',
               ]
         "
       >

@@ -11,20 +11,7 @@ outline: deep
 ## Signature
 
 :::tabs key:schema
-== zod(v3)
-```ts
-const { validateSubmit } = useVueValidateZod(schema, modelValue);
-
-const handleSubmit = validateSubmit(
-  callback: (value: z.output<typeof schema>) => void,
-  options?: {
-    handleValidateError?: (
-      error: PartialRecord<StringPaths<z.infer<typeof schema>>, string[]>,
-    ) => void;
-  },
-) => () => Promise<void>
-```
-== zod(v4)
+== zod
 ```ts
 const { validateSubmit } = useVueValidateZod(schema, modelValue);
 
@@ -78,53 +65,12 @@ const handleSubmit = validateSubmit(
 ## Example
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({
-  username: z.string().min(1).max(10),
-  email: z.string().email(),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  username: '',
-  email: '',
-});
-
-const { validateSubmit } = useVueValidateZod(schema, modelValue);
-
-const handleSubmit = validateSubmit(
-  (validValue) => {
-    console.log('Submission successful:', validValue);
-    // Send data to server
-  },
-  {
-    handleValidateError(errors) {
-      console.log('Validation failed:', errors);
-      // Show error message to user
-    },
-  },
-);
-</script>
-
-<template>
-  <form @submit.prevent="handleSubmit">
-    <input v-model="modelValue.username" />
-    <input v-model="modelValue.email" />
-    <button type="submit">Submit</button>
-  </form>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   username: z.string().min(1).max(10),

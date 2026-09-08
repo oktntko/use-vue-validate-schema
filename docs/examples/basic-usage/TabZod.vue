@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
+import { z } from 'zod';
 
 const multiple_checkbox_options = ['Jack', 'John', 'Mike'] as const;
 const radio_options = ['One', 'Two', 'Three'] as const;
@@ -17,7 +17,7 @@ const schema = z.object({
   single_select: z
     .string()
     .refine((val) => val !== '', {
-      message: 'Please select one',
+      error: 'Please select one',
     })
     .pipe(z.enum(single_select_options)),
   multiple_select: z.enum(multiple_select_options).array().min(1),

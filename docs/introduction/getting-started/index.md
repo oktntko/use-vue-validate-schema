@@ -29,12 +29,8 @@ Validation depends on an external library.
 What validation libraries are used in your project?
 
 :::tabs key:schema
-== zod(v3)
-[zod(v3)](https://v3.zod.dev/)  
-Zod is a TypeScript-first validation library. Using Zod, you can define schemas you can use to validate data, from a simple string to a complex nested object.
-
-== zod(v4)
-[zod(v4)](https://zod.dev/)  
+== zod
+[zod](https://zod.dev/)  
 TypeScript-first schema validation with static type inference. It's faster, slimmer, more `tsc`-efficient, and implements some long-requested features.
 
 == valibot
@@ -47,11 +43,7 @@ Validate unknown data with confidence. Valibot is the open source schema library
 Install it using the project's package manager. For example, `npm`, `pnpm`, or `yarn`. `pnpm` is used in this example.
 
 :::tabs key:schema
-== zod(v3)
-```sh
-pnpm i use-vue-validate-schema zod
-```
-== zod(v4)
+== zod
 ```sh
 pnpm i use-vue-validate-schema zod
 ```
@@ -66,32 +58,11 @@ pnpm i use-vue-validate-schema valibot
 First, define your schema.
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { z } from 'zod/v3'; // [!code ++]
-
-const schema = z.object({ // [!code ++]
-  username: z.string().trim().min(1).max(10), // [!code ++]
-  email: z.string().email().endsWith('@example.com'), // [!code ++]
-}); // [!code ++]
-
-const modelValue = ref<z.input<typeof schema>>({ // [!code ++]
-  username: '',
-  email: '',
-});
-
-function handleSubmit() {
-  window.alert('success!\n' + JSON.stringify(modelValue.value, null, '  '));
-}
-</script>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { ref } from 'vue';
-import { z } from 'zod/v4'; // [!code ++]
+import { z } from 'zod'; // [!code ++]
 
 const schema = z.object({ // [!code ++]
   username: z.string().trim().min(1).max(10), // [!code ++]
@@ -136,36 +107,12 @@ function handleSubmit() {
 Now it's time to `use-vue-validate-schema`. Here we introduce the basic `validateSubmit` and `ErrorMessage`.
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3'; // [!code ++]
+import { useVueValidateZod } from 'use-vue-validate-schema'; // [!code ++]
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({ 
-  username: z.string().trim().min(1).max(10), 
-  email: z.string().email().endsWith('@example.com'), 
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  username: '',
-  email: '',
-});
-
-const { validateSubmit, ErrorMessage } = useVueValidateZod(schema, modelValue); // [!code ++]
-
-function handleSubmit() {
-  window.alert('success!\n' + JSON.stringify(modelValue.value, null, '  '));
-}
-</script>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4'; // [!code ++]
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({ 
   username: z.string().trim().min(1).max(10), 
@@ -221,46 +168,12 @@ You can provide feedback to the user when validation fails by passing the option
 :::
 
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({ 
-  username: z.string().trim().min(1).max(10),
-  email: z.string().email().endsWith('@example.com'),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  username: '',
-  email: '',
-});
-
-const { validateSubmit, ErrorMessage } = useVueValidateZod(schema, modelValue);
-
-function handleSubmit() { // [!code --]
-  window.alert('success!\n' + JSON.stringify(modelValue.value, null, '  ')); // [!code --]
-} // [!code --]
-const handleSubmit = validateSubmit( // [!code ++]
-  (validValue) => { // [!code ++]
-    window.alert('success!\n' + JSON.stringify(validValue, null, '  ')); // [!code ++]
-  }, // [!code ++]
-  { // [!code ++]
-    handleValidateError(error) { // [!code ++]
-      window.alert('fail!\n' + JSON.stringify(error, null, '  ')); // [!code ++]
-    }, // [!code ++]
-  }, // [!code ++]
-); // [!code ++]
-</script>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({ 
   username: z.string().trim().min(1).max(10),
@@ -338,27 +251,7 @@ Even if it matches the initial value, an error message will be displayed after S
 :::
 
 :::tabs key:schema
-== zod(v3)
-```vue
-<template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <label for="username"> username : {{ modelValue.username }} </label>
-      <input id="username" v-model="modelValue.username" type="text" />
-      <ErrorMessage field="username" multiple></ErrorMessage> <!-- [!code ++] -->
-    </div>
-
-    <div>
-      <label for="email"> email : {{ modelValue.email }} </label>
-      <input id="email" v-model="modelValue.email" type="email" />
-      <ErrorMessage field="email" multiple></ErrorMessage> <!-- [!code ++] -->
-    </div>
-
-    <button type="submit">submit</button>
-  </form>
-</template>
-```
-== zod(v4)
+== zod
 ```vue
 <template>
   <form @submit.prevent="handleSubmit">
@@ -408,61 +301,12 @@ With just a few lines, we were able to integrate the Vue and validation schemas!
 
 ::: details source
 :::tabs key:schema
-== zod(v3)
+== zod
 ```vue
 <script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV3';
+import { useVueValidateZod } from 'use-vue-validate-schema';
 import { ref } from 'vue';
-import { z } from 'zod/v3';
-
-const schema = z.object({
-  username: z.string().trim().min(1).max(10),
-  email: z.string().email().endsWith('@example.com'),
-});
-
-const modelValue = ref<z.input<typeof schema>>({
-  username: '',
-  email: '',
-});
-
-const { validateSubmit, ErrorMessage } = useVueValidateZod(schema, modelValue);
-
-const handleSubmit = validateSubmit(
-  (validValue) => {
-    window.alert('success!\n' + JSON.stringify(validValue, null, '  '));
-  },
-  {
-    handleValidateError(error) {
-      window.alert('fail!\n' + JSON.stringify(error, null, '  '));
-    },
-  },
-);
-</script>
-
-<template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <label for="username"> username : {{ modelValue.username }} </label>
-      <input id="username" v-model="modelValue.username" type="text" />
-      <ErrorMessage field="username" multiple></ErrorMessage>
-    </div>
-
-    <div>
-      <label for="email"> email : {{ modelValue.email }} </label>
-      <input id="email" v-model="modelValue.email" type="email" />
-      <ErrorMessage field="email" multiple></ErrorMessage>
-    </div>
-
-    <button type="submit">submit</button>
-  </form>
-</template>
-```
-== zod(v4)
-```vue
-<script setup lang="ts">
-import { useVueValidateZod } from 'use-vue-validate-schema/zodV4';
-import { ref } from 'vue';
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 const schema = z.object({
   username: z.string().trim().min(1).max(10),
